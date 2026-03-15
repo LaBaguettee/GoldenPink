@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Pink - A Web Novel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gp-pink': '#FFB6C1', 
+                        'gp-amber': '#D97706',
+                        'book-leather': '#112E23', /* Deep Emerald Green */
+                        'book-leather-dark': '#0A1C15', /* Darker Forest Green */
+                        'book-page': '#F4EFE6', /* Vintage Parchment */
+                        'book-ink': '#0F1A15', /* Dark greenish-black ink */
+                        'book-gold': '#D4AF37', /* Classic Gold */
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        arial: ['Arial', 'Helvetica', 'sans-serif'],
+                        handwriting: ['Caveat', 'cursive'],
+                    },
+                    boxShadow: {
+                        'page': '0 10px 30px rgba(0,0,0,0.8), inset 0 0 40px rgba(212, 175, 55, 0.1)',
+                        'leather': '0 4px 20px rgba(0,0,0,0.6)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #0A1C15; 
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
+                url("data:image/svg+xml,%3Csvg width='400' height='300' viewBox='0 0 400 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='rotate(-25, 200, 150)' font-family='Georgia, serif' font-size='24' font-weight='bold' text-anchor='middle' dominant-baseline='middle' letter-spacing='4'%3E%3Ctext x='200' y='152' fill='rgba(255,255,255,0.02)'%3EGOLDEN PINK%3C/text%3E%3Ctext x='198' y='148' fill='rgba(0,0,0,0.5)'%3EGOLDEN PINK%3C/text%3E%3Ctext x='199' y='150' fill='%230B1E16'%3EGOLDEN PINK%3C/text%3E%3C/g%3E%3C/svg%3E"),
+                radial-gradient(circle at center, #112E23 0%, #0A1C15 100%);
+            background-attachment: fixed;
+            color: #F4EFE6; 
+        }
+
+        .chapter-text {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .chapter-text p { 
+            margin-bottom: 1.25rem; 
+            line-height: 1.8; 
+            font-size: 1.125rem; 
+        }
+
+        /* Textured Page Look */
+        .paper-texture {
+            background-color: #F4EFE6;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+            color: #0F1A15;
+            transition: all 0.5s ease;
+        }
+
+        .theme-dark {
+            background-color: #0A1C15 !important;
+            background-image: none !important;
+            color: #E0D8C8 !important;
+            border-color: rgba(212, 175, 55, 0.4) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9) !important;
+        }
+
+        .theme-dark .chapter-text {
+            color: #E0D8C8;
+        }
+
+        .theme-dark h1, .theme-dark h2, .theme-dark h3, .theme-dark h4 { color: #D4AF37; }
+
+        /* Sofia's Cado Vision Styles */
+        .cado-active .paper-texture {
+            background-color: #FFF0F5 !important; /* Ethereal pale pink tint */
+            border-color: rgba(255, 182, 193, 0.6) !important;
+            box-shadow: 0 0 30px rgba(255, 182, 193, 0.2) inset;
+        }
+        .theme-dark.cado-active .paper-texture {
+            background-color: #1A0A10 !important; /* Deep ethereal pink/burgundy */
+            border-color: rgba(255, 182, 193, 0.3) !important;
+        }
+        .cado-text {
+            color: #9D174D; /* Deep Pink */
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            letter-spacing: 0.02em;
+        }
+        .theme-dark .cado-text {
+            color: #FFB6C1; /* GP Pink */
+        }
+
+        /* Tethering Pulse */
+        .lineage-card {
+            transition: all 0.4s ease;
+        }
+        .lineage-card:hover {
+            box-shadow: 0 0 20px rgba(255, 182, 193, 0.3);
+            border-color: rgba(255, 182, 193, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Dantez Notes Overlay */
+        .dantez-note {
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.95);
+            background-color: #FDFBF7; /* Light paper sticky note */
+            padding: 1rem;
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            border-radius: 0.25rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 50;
+        }
+        .theme-dark .dantez-note {
+            background-color: #1A0F14; /* Deep dark reddish-black */
+            border-color: rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .dantez-active .dantez-note {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0A1C15; border-left: 1px solid #112E23; }
+        ::-webkit-scrollbar-thumb { background: #D97706; border-radius: 0px; border: 1px solid #112E23; } 
+        ::-webkit-scrollbar-thumb:hover { background: #FFB6C1; } 
+        .nav-link.active { color: #D4AF37; border-bottom: 2px solid #D4AF37; }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen font-serif overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-book-leather shadow-leather border-b border-book-gold/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <a href="#" onclick="showPage('page-home')" class="text-2xl font-bold text-gp-pink tracking-widest uppercase" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Golden Pink</a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 h-full items-center">
+                    <button onclick="showPage('page-home')" class="nav-link h-full px-2 text-book-page hover:text-book-gold transition duration-300 active" data-target="page-home">Prologue</button>
+                    <button onclick="showPage('page-read')" class="nav-link h-full px-2 text-book-page hover:text-book-gold transition duration-300" data-target="page-read">The Manuscript</button>
+                    <button onclick="showPage('page-characters')" class="nav-link h-full px-2 text-book-page hover:text-book-gold transition duration-300" data-target="page-characters">The Cast</button>
+                    <button onclick="showPage('page-lore')" class="nav-link h-full px-2 text-book-page hover:text-book-gold transition duration-300" data-target="page-lore">The Lexicon</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-book-page hover:text-book-gold focus:outline-none">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-book-leather-dark border-t border-book-gold/30 absolute w-full shadow-leather">
+            <div class="px-4 pt-2 pb-4 space-y-1 sm:px-3 flex flex-col">
+                <button onclick="showPage('page-home'); document.getElementById('mobile-menu').classList.add('hidden')" class="nav-link block px-3 py-3 text-lg font-medium text-book-page hover:text-book-gold text-left active" data-target="page-home">Prologue</button>
+                <button onclick="showPage('page-read'); document.getElementById('mobile-menu').classList.add('hidden')" class="nav-link block px-3 py-3 text-lg font-medium text-book-page hover:text-book-gold text-left" data-target="page-read">The Manuscript</button>
+                <button onclick="showPage('page-characters'); document.getElementById('mobile-menu').classList.add('hidden')" class="nav-link block px-3 py-3 text-lg font-medium text-book-page hover:text-book-gold text-left" data-target="page-characters">The Cast</button>
+                <button onclick="showPage('page-lore'); document.getElementById('mobile-menu').classList.add('hidden')" class="nav-link block px-3 py-3 text-lg font-medium text-book-page hover:text-book-gold text-left" data-target="page-lore">The Lexicon</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow pt-16 relative z-10">
+        
+        <!-- ==================== HOME PAGE ==================== -->
+        <div id="page-home" class="app-page block">
+            <header class="min-h-[80vh] flex flex-col justify-center items-center text-center px-4 relative">
+                <div class="z-10 max-w-3xl mx-auto mt-8 border-y border-book-gold/30 py-12">
+                    <h1 class="text-6xl md:text-8xl font-bold text-book-gold mb-6 tracking-wider uppercase" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                        Golden <span class="text-gp-pink">Pink</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-book-page mb-10 font-arial leading-relaxed">
+                        A comedic, absurd, action-packed slice-of-life story.
+                    </p>
+                    <button onclick="showPage('page-read')" class="inline-block border border-book-gold text-book-gold font-bold text-lg px-8 py-3 hover:bg-book-gold hover:text-book-leather-dark transition-all duration-300 uppercase tracking-widest">
+                        Open the Book
+                    </button>
+                </div>
+
+                <!-- Deadline Tracker -->
+                <div class="z-10 mt-12 border border-book-gold/50 bg-book-leather-dark/90 p-6 md:px-12 rounded-sm shadow-leather relative overflow-hidden group backdrop-blur-sm">
+                    <div class="absolute inset-0 bg-gp-amber/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+                    <h3 class="text-lg md:text-xl font-serif text-book-gold mb-2 uppercase tracking-widest text-center">Xander's Ultimatum</h3>
+                    <div class="flex justify-center items-center gap-6 mt-4">
+                        <div class="text-center">
+                            <span class="block text-5xl md:text-6xl font-bold text-gp-pink animate-pulse" style="text-shadow: 0 0 15px rgba(255,182,193,0.4);">20</span>
+                            <span class="text-xs md:text-sm uppercase tracking-widest text-book-page mt-2 block font-arial">Days Remain</span>
+                        </div>
+                        <div class="w-px h-16 bg-book-gold/30"></div>
+                        <div class="text-left max-w-xs">
+                            <span class="block text-lg font-bold text-gp-amber uppercase tracking-widest leading-tight">The Great Evening Dishes</span>
+                            <span class="text-sm text-book-page mt-2 block font-arial opacity-80">Dantez must prove the impossible, or face permanent disownment.</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <section class="py-24 px-4">
+                <div class="max-w-4xl mx-auto paper-texture p-8 md:p-16 rounded-sm shadow-page border border-book-gold/20 relative">
+                    
+                    <!-- DANTEZ NOTE -->
+                    <div class="dantez-note absolute -top-6 right-0 md:-right-8 w-56 md:w-72 rotate-3">
+                        <p class="font-handwriting text-red-600 font-bold text-xl md:text-2xl leading-tight">Ancient texts from the Third Age imply that Essence isn't destroyed, just displaced! If a vessel goes hollow, where does the Eco go?! - D.</p>
+                    </div>
+
+                    <h2 class="text-3xl md:text-4xl font-bold text-book-ink mb-8 text-center border-b border-gp-amber/30 pb-4 uppercase tracking-widest">The Secret Tether</h2>
+                    <div class="font-arial text-lg text-book-ink leading-relaxed space-y-6">
+                        <p>
+                            It follows a curious genius and a nosy guy student who are hiding a massive, life-altering secret within a prestigious, status-obsessed academic society. Dantez's insatiable curiosity and Korelius's nosiness led them to a disastrous, secret event in a valley. They explored forbidden grounds near the school after Dantez suspected the Eco remnants of a dragon. Korelius died saving Dantez from the fallout.
+                        </p>
+                        <p>
+                            Using his genius intellect, Dantez performed an impossible feat: he unintentionally transferred his entire Essence into Korelius in an attempt to revive him, and it worked. Korelius is now reborn as Dantez’s entire Essence itself. Unknown to both boys, their lives are now fundamentally tied. If Dantez dies, Korelius will perish alongside him.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== READ PAGE ==================== -->
+        <div id="page-read" class="app-page hidden">
+            <section class="py-12 px-4 max-w-7xl mx-auto min-h-screen">
+                
+                <!-- Mobile Chapter Selector -->
+                <div class="lg:hidden mb-6">
+                    <select id="mobile-chapter-select" class="w-full bg-book-leather-dark text-book-gold border border-book-gold/50 rounded-sm p-3 font-serif uppercase tracking-wider shadow-leather outline-none focus:border-gp-pink">
+                    </select>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-8 relative">
+                    
+                    <!-- Chapter Selection Menu (Leather bound) -->
+                    <div class="lg:w-1/4 flex-shrink-0 order-2 lg:order-1">
+                        <div class="sticky top-24 bg-book-leather-dark rounded-sm border border-book-gold/30 p-4 pt-0 max-h-[80vh] overflow-y-auto shadow-leather">
+                            <h3 class="text-xl font-bold text-book-gold px-2 pt-4 pb-4 sticky top-0 bg-book-leather-dark uppercase tracking-widest border-b border-gp-amber/30 z-10">Index</h3>
+                            <ul id="chapter-list" class="space-y-2 mt-4">
+                                <!-- JS will populate chapters here -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Reading Pane (Parchment) -->
+                    <div class="lg:w-3/4 flex flex-col order-1 lg:order-2">
+                        
+                        <!-- Reader Controls -->
+                        <div class="flex justify-end space-x-4 mb-4 px-2">
+                            <button id="toggle-font-btn" class="flex items-center space-x-2 text-book-page hover:text-gp-pink transition text-sm uppercase tracking-wider">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+                                <span id="font-label">Use Serif</span>
+                            </button>
+                            <button id="toggle-theme-btn" class="flex items-center space-x-2 text-book-page hover:text-book-gold transition text-sm uppercase tracking-wider">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                                <span id="theme-label">Dark Mode</span>
+                            </button>
+                        </div>
+
+                        <div id="reader-container" class="paper-texture rounded-sm border border-book-gold/20 p-6 md:p-12 shadow-page">
+                            <div id="reader-content" class="chapter-text font-arial transition-colors duration-300">
+                                <p class="text-center font-serif italic">Turning the pages...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== CHARACTERS PAGE ==================== -->
+        <div id="page-characters" class="app-page hidden">
+            <section class="py-16 px-4 min-h-[85vh]">
+                <div class="max-w-7xl mx-auto">
+                    <h2 class="text-4xl font-bold text-book-gold mb-6 text-center uppercase tracking-widest border-b border-book-gold/50 pb-4 inline-block mx-auto" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">The Lineage Ledger</h2>
+                    
+                    <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm p-4 border-b border-book-gold/30 shadow-leather flex flex-wrap justify-center items-center gap-4 -mx-4 mb-12 transition-all duration-300">
+                        <button id="cado-toggle-btn" class="inline-flex items-center space-x-2 border border-gp-amber/50 text-gp-amber px-6 py-2 hover:bg-gp-amber/10 transition-all uppercase tracking-widest text-sm font-bold rounded-sm shadow-leather">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            <span id="cado-btn-text">Activate Sofia's Cado</span>
+                        </button>
+                        <button class="dantez-toggle-btn inline-flex items-center space-x-2 border border-red-600/50 text-red-500 px-6 py-2 hover:bg-red-600/10 transition-all uppercase tracking-widest text-sm font-bold rounded-sm shadow-leather">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            <span class="dantez-btn-text">Activate Dantez's Notes</span>
+                        </button>
+                        <div id="cado-helper" class="w-full text-center text-xs text-book-page/70 font-arial hidden">Viewing the true manifestation of souls through Sofia's eyes.</div>
+                    </div>
+                    
+                    <!-- Main Families (Forced Side-by-Side) -->
+                    <div id="cast-container" class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8 mb-12 items-start transition-colors duration-700">
+                        <!-- Delees Family -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page w-full relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-gp-amber/30 pb-2 uppercase tracking-widest">The Delees Lineage</h3>
+                            <p class="text-sm text-gp-amber mb-6 font-arial font-semibold uppercase tracking-wider">A modest household marked by amber eyes and unexpected resilience.</p>
+                            <div class="space-y-6 font-arial relative z-10">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Korelius Delees</h4>
+                                    <p class="text-gp-amber text-sm font-bold mb-2 uppercase tracking-wide">The Average & The Nosy</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="Why is he so bright? As much as I try not to, I find myself so attracted to his warmth. He just cares... without wanting anything from my status. I can't let that die. I can't let it go.">He has no high status, and average Eco grades. For the longest time he lived averagely, bored and carefree, but his standard life fueled the nosiness that got him killed. He was reborn by Dantez and is now unraveling a power within him that is upgrading his body and his mind. He has amber eyes and naturally pink hair.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Mirandine Delees</h4>
+                                    <p class="text-gp-amber text-sm font-bold mb-2 uppercase tracking-wide">The Breadwinner & Masked Genius</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="She carries an ocean of suppressed sorrow and fierce devotion beneath that flawless smile. Her soul is breathtaking, but so heavy with exhaustion. I just want to pour her a cup of tea and tell her it's okay to finally rest.">She sacrificed her entire childhood to raise and fund Korelius. To the neighborhood, she is an elegant woman of few words who runs a flawless household with gentle melodic hums. Secretly, she is a top-tier, masked Aura Genius known as Black Song, operating in a powerful strike Guild called The Hummingbirds.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent opacity-70">
+                                    <h4 class="text-lg font-bold text-book-ink font-serif">Jaron Delees</h4>
+                                    <p class="text-book-ink/70 text-sm font-bold mb-2 uppercase tracking-wide">The Late Father</p>
+                                    <div class="character-desc text-sm leading-relaxed">A soldier who died in the war before he could ever see his son grow up. He fought bravely but was an ordinary man, leaving behind absolutely no legacy, wealth, or Eco status to protect his family.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent opacity-70">
+                                    <h4 class="text-lg font-bold text-book-ink font-serif">Liana Merkis Delees</h4>
+                                    <p class="text-book-ink/70 text-sm font-bold mb-2 uppercase tracking-wide">The Late Mother</p>
+                                    <div class="character-desc text-sm leading-relaxed">A kind woman with black hair who tragically passed away giving birth to Korelius. She knew a rare breathing technique that allowed her to accumulate Eco, which she taught to her daughter through a song.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent opacity-70">
+                                    <h4 class="text-lg font-bold text-book-ink font-serif">Kaelen Merkis</h4>
+                                    <p class="text-book-ink/70 text-sm font-bold mb-2 uppercase tracking-wide">The Careless Uncle</p>
+                                    <div class="character-desc text-sm leading-relaxed">The man who originally took the kids in. Deeply neglectful and lazy, he squandered their small state funds until Mirandine forcefully took charge and left.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ofgreen Family -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-gold/40 shadow-page w-full relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-book-gold/40 pb-2 uppercase tracking-widest">The Ofgreen Lineage</h3>
+                            <p class="text-sm text-book-gold mb-6 font-arial font-semibold uppercase tracking-wider">Notoriously known to have Golden hair and Green eyes.</p>
+                            <div class="space-y-6 font-arial relative z-10">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Dantez Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide text-shadow-sm">The Youngest & The Outcast</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="My sweet, brilliant little brother. His soul used to be a blinding light, but now it's a fractured mirror slowly slipping away. I yell because I'm so terrified of losing him, and I don't know how else to pull him back. I can only rely on Korelius.">A quiet, calm genius driven purely by curiosity and enlightenment. He views Eco like a life form due to ancient texts. He accidentally transferred his entire Essence to Korelius to revive him and is now hollow.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Xander Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Eldest Brother & Head of Household</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="His soul is buried under an absolute mountain of duty. He thinks he has to be this cold, untouchable pillar of ice to keep our family safe. It breaks my heart because his burden is so real. I just wish he knew he didn't have to carry it all alone.">Cold, pragmatic, and heavily entrenched in Guild politics. He views Eco purely as a currency to buy influence and status. He understands Dantez but shames him to force growth for the family's sake.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Sofia Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Strict Sister & Caretaker</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="I try so hard to be the iron walls of this family, but sometimes my own soul feels so fragile. I just want everyone to be safe and happy.">A renowned genius who wrote books on essence fundamentals. Her Cado allows her to see the true manifestation of a person's soul. She expresses her deep care through an iron fist and strict discipline.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Bertalon Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Retired Grandfather</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="Grandfather's soul is ancient and overwhelming, like a sleeping volcano. I know beneath his terrifying silence, he truly believes his methods are acts of love for our future. I just wish he'd say it.">The terrifyingly silent patriarch who built the modern empire. He rarely speaks, commanding absolute obedience, and secretly arranged a date between Mirandine and Xander.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Helda Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Mother</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="Mother's soul is a gentle, weeping willow, still so tangled in her grief for Father. She is too sweet for the harshness of the Guilds, which is exactly why I must be strong enough for the both of us.">A gentle, soft-hearted woman paralyzed by how much Dantez's rebellious, brilliant nature mirrors his dead father. She lacks the ruthless ambition of her children.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Elara Aride Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Combatant</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A beautiful, untamed wildfire. Her soul burns with such fierce protectiveness for her baby and Velan. I sometimes envy her absolute freedom to just be exactly who she is without apologizing.">The family's hyper-competitive combat prodigy who travels between Guilds seeking strong opponents. She is surprisingly an amazing mother to her two-year-old son.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Velan Aride</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">Second Son of the Aride Household</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A quiet, steady pond perfectly balancing Elara's fire. It’s so comforting to see a soul completely unbothered by status. There are no hidden motives or fake smiles with him—he is just entirely real.">Elara Ofgreen's husband. A surprisingly thin, proper, and well-mannered man who is completely unbothered by his wife's terrifying reputation.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Silas Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Academic</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A perfectly polished, sterile glass room. He hides behind his academic perfection so he never has to deal with messy emotions. It's almost disgusting how fake it feels. I wish he'd let himself feel something real instead of performing for society.">Sofia's twin. An aloof and arrogant researcher obsessed with sterile, peer-reviewed perfection. Very popular with high society ladies.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Gideon Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Perfectionist</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="He tries so hard to mirror Xander, but his soul is shivering with insecurity. It makes me sick to my stomach how he fakes his superiority just to be validated. I just wish he'd stop taking his own emptiness out on Dantez.">A meticulous, image-obsessed rising star within the society's Tribunal and legal systems. Extremely vocal about Dantez being a stain on the family.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent opacity-70">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Bartalon Junior Ofgreen</h4>
+                                    <p class="text-book-gold text-sm font-bold mb-2 uppercase tracking-wide">The Late Father</p>
+                                    <div class="character-desc text-sm leading-relaxed">A legendary Master Essence user whose relentless pursuit of Eco ultimately led to his untimely death.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supporting Houses & Staff (Columns) -->
+                    <div class="columns-1 md:columns-2 gap-12 transition-colors duration-700">
+                        <!-- House Barmin -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page break-inside-avoid inline-block w-full mb-12 relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-book-leather/30 pb-2 uppercase tracking-widest">House Barmin</h3>
+                            <div class="space-y-6 font-arial">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Lord Thaddeus Barmin</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">The Retired Elder</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A soul like old, weathered silk. It looks elegant on the outside, but underneath it's woven entirely with greedy ambitions and secrets. That kind of calculated fakeness is genuinely disgusting to me.">A frail-looking but commanding man who justifies the political maneuvering around the Great Evening duels. His unnamed son is the current Lord of the house.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Sir Avlar Barmin</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Eldest Son of the Lord</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A restless breeze, always shifting directions to please whoever has the most power. There's nothing real anchoring him. It's sad, but it's also why I can't stand being around people like him.">Next in line for his father's seat. He manipulates atmospheric pressure to create solid wind platforms and localized vacuums in combat.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- House Gheurt -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page break-inside-avoid inline-block w-full mb-12 relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-book-leather/30 pb-2 uppercase tracking-widest">House Gheurt</h3>
+                            <div class="space-y-6 font-arial">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Lord Vargar Gheurt</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Head of House Gheurt</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A soul built entirely of rusted, heavy iron. It feels suffocatingly harsh, completely devoid of any real gentleness or empathy. He only sees people as breeding stock. It's absolutely disgusting.">A scarred, aggressive Aura user and father to Camor. He openly seeks Mirandine for her combat potential and genetics.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Sir Camor Gheurt</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Eldest Son of House Gheurt</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="Like a heavy, unmoving boulder. There's no real humanity left in there. There's a certain tragedy in being raised to be nothing more than an empty weapon for the Guilds, but it still repulses me.">A massive fighter who wields a slab-like iron sword. He uses terrifying Aura states to turn his blade into a highly pressurized, repulsive wall.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- House Vandlem -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page break-inside-avoid inline-block w-full mb-12 relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-book-leather/30 pb-2 uppercase tracking-widest">House Vandlem</h3>
+                            <div class="space-y-6 font-arial">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Finn Vandlem</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Only Son of House Vandlem</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="He has been a loyal friend for so long, and his soul is genuinely devoted, but it feels like he's trying to hold onto a version of me that doesn't exist. I wish I could make him understand without breaking his heart.">Sofia and Gideon's childhood friend. A sharp-looking noble who uses a highly deceptive hybrid technique, mimicking Aura footwork to land close-combat Essence strikes.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- The Academy & Estate Staff -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page break-inside-avoid inline-block w-full mb-12 relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-book-leather/30 pb-2 uppercase tracking-widest">The Academy & Estate</h3>
+                            <div class="space-y-6 font-arial">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Dean Aris</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Dean of the Institution</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A soul meticulously structured around fake rules and reputation. It's disgusting how quickly he threw Dantez away just to save face. There's absolutely no real compassion left in that man.">The strict head of the academic society. He uses his Eco to assert dominance. He expelled Dantez for losing his Essence and suspended Korelius.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Professor Vance</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Faculty Member</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A diligent, exhausted flicker of light. He tries his best for the students, even when they make his life incredibly difficult. He is one of the few real ones left at that school.">An academy teacher who chased Korelius and Dantez past the curfew wards into the valley before the shockwave hit, leaving his robes singed.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Barnaby</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Head Butler</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A warm, steadfast pillar in our home. Unlike the fake nobles at the galas, his loyalty is so pure and real. I don't know how I would manage this estate without his quiet support.">The head butler of the Ofgreen estate, who fields direct requests from Sofia regarding official estate stationery and household matters.</div>
+                                </div>
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Allen</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">Estate Servant</p>
+                                    <div class="character-desc text-sm leading-relaxed" data-cado="A gentle, eager-to-please energy. It's refreshing to see someone so genuinely trying their best without hidden motives. I really must remember to thank him more often.">A servant of the Ofgreen estate tasked by Xander with preparing rooms and arranging transport for the Delees siblings.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Historical Figures -->
+                    <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page w-full mt-4 relative">
+                        <!-- Dantez's Marginalia -->
+                        <div class="dantez-note absolute right-0 md:-right-4 top-0 md:-top-6 w-56 md:w-72 rotate-3 z-20">
+                            <p class="font-handwriting text-red-600 font-bold text-xl md:text-2xl leading-tight">Look at this pattern! Every single one failed an obsession before going hollow! Wait, does Ryan's timeline match?! YES IT DOES! It's all connected!! - D.</p>
+                        </div>
+                        
+                        <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-gp-pink/30 pb-2 uppercase tracking-widest">Historical Records</h3>
+                        <p class="text-sm text-book-leather mb-6 font-arial font-semibold uppercase tracking-wider">Figures studied by Dantez Ofgreen regarding the catatonic history of Essence Loss.</p>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 font-arial">
+                            <div>
+                                <h4 class="text-lg font-bold text-book-ink font-serif">Cooper Lang</h4>
+                                <p class="text-sm mt-1 leading-relaxed">A huge Master Essence user. The first recorded person to experience Essence Loss and become a vegetable after failing to save his brother.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-book-ink font-serif">Ryan</h4>
+                                <p class="text-sm mt-1 leading-relaxed">An Essence user who lost his wife, suffered complete Essence Loss, and became catatonic.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-book-ink font-serif">Billy Bones</h4>
+                                <p class="text-sm mt-1 leading-relaxed">An author of texts beloved by Dantez. He experienced Essence Loss right at the edge of a massive scientific breakthrough.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-book-ink font-serif">Sidney</h4>
+                                <p class="text-sm mt-1 leading-relaxed">A historical figure who suffered Essence Loss and became catatonic while running a marathon.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-book-ink font-serif">Eliony Vivianne</h4>
+                                <p class="text-sm mt-1 leading-relaxed">The former host of 'ViveEvo' who suffered Essence Loss and became catatonic on the final episode of her late-night show.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-book-ink font-serif">Lienne Smith</h4>
+                                <p class="text-sm mt-1 leading-relaxed">The only recorded case where the catatonic state of Essence Loss was rectified through years of intense rehab, though she remained permanently hollow.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== LORE PAGE ==================== -->
+        <div id="page-lore" class="app-page hidden">
+            <section class="py-16 px-4 min-h-[85vh]">
+                <div class="max-w-4xl mx-auto relative">
+                    <h2 class="text-4xl font-bold text-book-gold mb-12 text-center uppercase tracking-widest">The Lexicon: Eco</h2>
+
+                    <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm p-4 border-b border-book-gold/30 shadow-leather flex flex-wrap justify-center items-center gap-4 -mx-4 mb-12 transition-all duration-300">
+                        <button class="dantez-toggle-btn inline-flex items-center space-x-2 border border-red-600/50 text-red-500 px-6 py-2 hover:bg-red-600/10 transition-all uppercase tracking-widest text-sm font-bold rounded-sm shadow-leather">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                            <span class="dantez-btn-text">Activate Dantez's Notes</span>
+                        </button>
+                    </div>
+                    
+                    <div class="paper-texture p-8 md:p-16 rounded-sm shadow-page border border-book-gold/20 relative">
+                        
+                        <!-- Dantez's Marginalia -->
+                        <div class="dantez-note absolute left-0 md:-left-8 top-12 w-56 md:w-72 -rotate-2 z-20">
+                            <p class="font-handwriting text-red-600 font-bold text-xl md:text-2xl leading-tight">Aura = Stealing from Earth! Essence = Borrowing from yourself! BUT WHAT IF YOU OVERDRAFT?! A forced vacuum should theoretically reverse the flow of Eco! - D.</p>
+                        </div>
+                        
+                        <div class="dantez-note absolute right-0 md:-right-8 top-1/3 w-56 md:w-72 rotate-3 z-20">
+                            <p class="font-handwriting text-red-600 font-bold text-xl md:text-2xl leading-tight">Lienne Smith recovered physical function but remained hollow. The Eco pathways healed, but the anchor was gone. The soul MUST be the anchor! - D.</p>
+                        </div>
+                        
+                        <div class="dantez-note absolute left-0 md:-left-4 bottom-32 w-56 md:w-72 -rotate-3 z-20">
+                            <p class="font-handwriting text-red-600 font-bold text-xl md:text-2xl leading-tight">Old Eco mutations are just genetic memory! If a lineage isolates a specific frequency long enough, it crystallizes in the DNA! - D.</p>
+                        </div>
+
+                        <div class="dantez-note absolute right-0 md:-right-8 bottom-12 w-56 md:w-72 rotate-2 z-20">
+                            <p class="font-handwriting text-red-600 font-bold text-xl md:text-2xl leading-tight">The Vortex is the key!! If Aura rejects Essence, can we invert the polarity to force a vacuum?! I need more coffee and three more chalkboards!! - D.</p>
+                        </div>
+
+                        <div class="font-arial text-lg text-book-ink leading-relaxed space-y-6 relative z-10">
+                            <p><span class="float-left text-5xl font-serif text-book-gold mr-3 leading-none mt-2">E</span><strong class="font-serif text-xl text-book-gold">co</strong> represents the earthly logic of magic in this world. It is its own unique element containing an aspect that makes things whimsical and magically alive.</p>
+                            
+                            <p><strong class="font-serif text-xl text-gp-amber">Essence</strong> is the manifestation of a person's unique Eco flowing through their soul. Those with a large pool of Eco gathered around their soul are prone to sensing it in their environment. Through understanding, they replicate this Eco from within to create magic.</p>
+                            
+                            <p><strong class="font-serif text-xl text-gp-amber">Aura</strong> is the powerful manipulation of wild Eco present in the environment. It relies heavily on mental fortitude to pull energy around the user, granting immense enhancements to speed, strength, and durability.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Cado</strong> refers to a unique, natural mutation or specialty in a person's Essence, offering them abilities outside standard Eco manipulation.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Guilds</strong> are the powerful, established factions that dictate high-society politics, combat rules, and wealth distribution across the nation.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Vortex or Gravitational Anchor</strong> is the intense, crushing mental state Aura users must maintain to pull wild Eco into themselves. If focus breaks, the magic violently disperses.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Eco-weaving</strong> is the architectural art of embedding Eco into physical objects, creating self-sustaining magical technology like heated floors and floating chandeliers.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Great Evening</strong> represents a formal high-society matchmaking gala designed to secure political alliances and preserve ancient lineages through organized tournament combat known as the Dishes.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Old Eco</strong> describes the ancient, raw magical traits and mutations that wealthy aristocratic families desperately try to preserve through strict genetic bloodlines.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="bg-book-leather-dark py-8 text-center border-t border-book-gold/30 mt-auto">
+        <p class="text-book-gold/50 font-serif tracking-widest text-sm uppercase">Golden Pink Web Novel &copy; 2026</p>
+    </footer>
+
+    <!-- Hidden Chapter Data Storage -->
+    <div id="raw-chapters" style="display: none;">
+        <article data-title="Chapter 1: I Just Got Lost, Sir">
+The Dean’s office was designed to make you feel small. Vaulted ceilings, dark oak walls, and a desk that cost more than Korelius’s entire neighborhood.
+
+Korelius sat stiffly in a leather chair. Next to him, Dantez slouched, looking profoundly bored.
+
+Behind them stood their executioners. Sofia’s posture was rigid with fury, her knuckles white as she gripped the back of Dantez’s chair. Beside her, their mother, Helda, didn't weep. She just stared at Dantez with a quiet, paralyzed sorrow, her soft heart breaking at how perfectly his rebellious posture mirrored his late father’s.
+
+On Korelius’s side stood Mirandine. She was breathtakingly beautiful, dressed impeccably, and radiating a warm, gentle smile while quietly humming a sweet, melodic breathing rhythm. Korelius was sweating through his uniform. That hum meant she was going to end him.
+
+"Let me ensure I have the facts straight," Dean Aris steepled his fingers, his Eco flaring slightly to assert dominance. "Three of my faculty were dispatched to the eastern campus boundary last night."
+
+Professor Vance, his robes still singed, stepped forward. He explained how he had chased the two boys past the curfew wards. He lost them in the valley right before the shockwave hit.
+
+Two other teachers chimed in, detailing the massive crater they found and the hours spent using their Aura to stabilize the chaotic Eco left behind. They found the boys unconscious in the dirt. No other witnesses.
+
+Dean Aris turned his cold gaze to the boys. He lingered on Dantez. The Dean narrowed his eyes, leaning forward.
+
+"Dantez," the Dean said slowly. "You are from a lineage of unparalleled Essence. Yet, sitting before me... you are completely hollow. Your Essence is gone."
+
+Sofia’s grip tightened in pure rage. Helda simply closed her eyes in quiet despair. Mirandine kept smiling, her humming never skipping a beat.
+
+"It was a theoretical experiment," Dantez lied smoothly, though his calm exterior hid a flicker of panic. "I suspected there were Eco remnants of a dragon in the valley. I went to investigate and pushed my limits trying to analyze it. My Essence... burned out in the backlash."
+
+"And you?" The Dean snapped at Korelius. "A distinctly average student with no business being near a prodigy's experiment."
+
+"I... I just got lost, sir," Korelius stammered. Deep inside, he felt an overwhelming, foreign presence that hadn't been there yesterday—a constant reminder of what he had become. He didn't dare look at Dantez.
+
+The Dean sighed, standing up. This school ran on reputation, and a hollowed-out student was useless to them.
+
+"Dantez," Aris declared. "Due to your repeated delinquency, and the permanent loss of your Essence, you are hereby expelled. You no longer meet the standards of this institution."
+
+Sofia closed her eyes in furious disgrace.
+
+"As for you, Korelius," Aris continued, waving a hand dismissively. "You are suspended until the next semester. Consider yourself lucky."
+        </article>
+
+        <article data-title="Chapter 2: Ah-Ah">
+The heavy oak doors of the Dean's office clicked shut, leaving the two families in the expansive, marble-floored hallway.
+
+Korelius Delees exhaled a shaky breath, his legs feeling like lead. Beside him, Dantez Ofgreen adjusted his collar, his expression unreadable.
+
+For a brief second, the adults were distracted. Sofia was aggressively fixing her coat, her fiery presence demanding space, while Mirandine calmly retrieved her purse. Korelius seized the moment and grabbed Dantez’s sleeve.
+
+"What did you do to me?" Korelius whispered, his voice trembling.
+
+Dantez looked at him, his eyes completely hollow but still sharp with intellect. "I fixed my mistake," Dantez murmured back. "Try not to blow yourself up before the semester starts."
+
+Before Korelius could ask what that meant, Sofia stepped between them, her posture rigid. She shot Korelius a look of absolute disdain before turning her attention to the smiling woman next to him.
+
+"Sofia Ofgreen," Mirandine said. Her voice was utterly pleasant, but her eyes were calculating. "I've read your books on the fundamentals of Essence. Brilliant work. I am Mirandine Delees."
+
+Sofia blinked, slightly taken aback that this commoner knew her academic texts. She recovered her haughty composure quickly. "Thank you. It is unfortunate your brother does not share your appreciation for hard work. I suggest you keep him far away from my family."
+
+"Oh, I intend to," Mirandine smiled warmly, her tone entirely too cheerful for the insult. "Have a safe journey home, Ms. Ofgreen."
+
+The Ofgreen family’s luxury transport was sleek, black, and completely soundproof.
+
+Dantez’s mother, Helda, sat in the far corner. She didn't cry or raise her voice. She simply stared at Dantez with a quiet, paralyzing sorrow, her naturally sweet demeanor overwhelmed by the heavy atmosphere. She reached out, gently brushing a stray lock of hair from his forehead.
+
+"You have his eyes," she whispered, her voice barely carrying over the hum of the engine. "Your father was so brilliant, Dantez. But he pushed too far. Why couldn't you just be safe?"
+
+She withdrew her hand and looked out the window, unable to say more, leaving the rest of the discipline to her daughter.
+
+"Expelled," Sofia yelled, her knuckles white as she gripped her tablet. "An empty vessel! Do you have any idea what the Guilds will say? What Xander will do when he returns?"
+
+Dantez leaned his head against the cold glass. He didn't offer a witty comeback. Without his Essence, the world outside looked incredibly dull. The vibrant, glowing currents of Eco he was used to seeing in the air were just... gone. He was entirely blind to the magic of the world now.
+
+"You have shamed the Ofgreen name, Dantez," Sofia continued, her voice a fiery mix of raging discipline and deeply reluctant care. "You are grounded indefinitely."
+
+Korelius walked rigidly toward a pristine, modest sedan parked near the campus gates.
+
+Mirandine hummed a cheerful, upbeat melody, following the rhythmic breathing technique their mother had taught her. It was the most terrifying sound Korelius had ever heard. She unlocked the doors with a soft beep and smiled warmly at him.
+
+"In you go, little brother," she chimed sweetly.
+
+Korelius slid into the passenger seat, his hands trembling. He braced himself for the yelling, but Mirandine just started the engine and pulled out onto the main road. The silence stretched on for five agonizing minutes.
+
+"Mirandine, I—"
+
+"Ah-ah," she interrupted, her voice entirely pleasant. She didn't take her eyes off the road. "We don't speak in the car, Korelius. We wait until we get home. Where it's private."
+
+Korelius swallowed hard. The dread of what awaited him at home was bad enough, but his entire existence felt incredibly wrong. It wasn't a psychic connection to Dantez, but rather the overwhelming, terrifying reality of his rebirth. A massive, foreign presence—an entire genius Essence that absolutely did not belong to him—was resting inside him. He had no idea how to keep it contained.
+        </article>
+
+        <article data-title="Chapter 3: Wake Up">
+The Delees household was suffocatingly quiet when the front door clicked shut.
+
+Mirandine calmly placed her keys on the counter. She didn't look at Korelius. The cheerful humming had stopped entirely, which was somehow worse.
+
+"Go upstairs," she said, her voice eerily calm. "Change into something you can move in. Backyard. Ten minutes."
+
+Korelius didn't argue. He practically sprinted to his room, his heart hammering against the massive, heavy Eco resting inside his chest. He threw on a pair of loose sweatpants and a t-shirt, dreading every second that ticked by.
+
+When he stepped out the back door, Mirandine was waiting on the grass. She had changed into a sleek, dark athletic fit. In her right hand, she loosely held a wooden broomstick.
+
+"Mirandine, look, I can explain—"
+
+The air shifted. Before Korelius could blink, the broomstick cracked against his ribs.
+
+He gasped, stumbling sideways. He threw up his hands. "Wait! It wasn't—"
+
+She swung again. Korelius tried to duck, but Mirandine was an Aura Genius. She didn't just swing; she anticipated. The wood caught him hard on the shoulder. Pain flared down his arm.
+
+"Stop!" he yelled, stepping back.
+
+She stepped forward, her face completely unreadable. She swung at his legs. He jumped it, but she reversed the momentum seamlessly and caught him in the stomach. He dropped to his knees, coughing.
+
+He looked up at her, finally clamping his mouth shut.
+
+Mirandine lowered the broom. Her hands were shaking. The terrifyingly pleasant mask broke, and her eyes filled with tears.
+
+"I scrubbed floors," she said, her voice trembling but fierce. "I bled in the Guilds. I killed the little girl I was supposed to be so you could have a normal life. And you treat it like a waiting room."
+
+Korelius stared at the grass, the sting of the wood still pulsing through him.
+
+"You walk through life bored, Korelius. You let the days pass you by because you think there are no stakes," Mirandine choked out, wiping a stray tear from her cheek. "But the world doesn't care if you're bored. It will eat you alive."
+
+She dropped the broom. It clattered against the dirt.
+
+"If you want to survive," she whispered, stepping closer to gently lay a glowing, healing hand on his bruised shoulder. "You have to let that lazy, average boy die. You have to be reborn into someone who actually cares about being alive."
+
+Across the city, the heavy doors of the Ofgreen estate echoed as they closed.
+
+Helda immediately drifted toward the grand staircase, vanishing into the quiet isolation of her room. She couldn't bear to watch.
+
+Sofia turned on Dantez the second they were alone in the foyer.
+
+"A theoretical experiment?" Sofia screamed, her voice echoing off the marble floors. "You arrogant, selfish fool! You burned out your Essence for a theory?"
+
+Dantez stood perfectly still. He let her yell.
+
+"Do you know what it takes to hold this family together?" Sofia stepped closer, her fiery composure finally cracking. Her voice dropped, vibrating with raw, exhausted emotion. "To manage Mother? To face Xander's judgment? I spend every waking second trying to make sure this house doesn't collapse, and you just throw your life away for a thrill."
+
+Tears welled in her eyes, though she refused to let them fall. She grabbed him by the collar, shaking him slightly.
+
+"I protected you from them," she whispered, her voice breaking. "I took the anger so they wouldn't tear you apart. And now... look at you." She let go of him, taking a devastated step back. "What are you without any Essence, Dantez? What are you?"
+
+Dantez looked at his sister. He saw the dark circles under her eyes and the heavy burden she carried for all of them.
+
+"I'm sorry," he said quietly.
+
+It was the only truth he could offer. He turned away, walking down the long, silent hallway to his room. He went inside, shut the heavy door, and locked it.
+
+He sat on the edge of his bed in total darkness. For the first time in his life, the air around him was completely empty. There was no Eco. Just the deafening silence of a hollow chest.
+        </article>
+
+        <article data-title="Chapter 4: Whatever Gang">
+Korelius crawled into bed feeling like he’d gone ten rounds with a professional Aura fighter, which, technically, he had. Mirandine’s healing melody had closed the bruises, but the phantom ache of the broomstick lingered in his ribs.
+
+Her words replayed in his head. Reborn.
+
+He stared at his ceiling fan, the massive, alien Eco inside his chest humming like a trapped wasp. He tried to push down the existential dread and close his eyes. Exhaustion eventually won out, dragging him under.
+
+He didn't dream of normal things like missing a test or showing up to school naked.
+
+He opened his eyes to cotton candy. Massive, fluffy clouds the color of neon pepto-bismol drifted across a sky that was entirely too purple. He was standing ankle-deep in a crystalline lake that shimmered with restless energy. The water flowed away from him, narrowing into a turbulent river that dropped off the edge of the world into a roaring, unseen waterfall.
+
+In the middle of the lake stood a figure.
+
+It was a humanoid figure. This silhouette radiated power, glowing with a faint, melancholic blue pink.
+
+Korelius tried to move, but his feet were stuck in the shimmering sand.
+
+The figure didn’t turn around. It spoke to the waterfall, It’s voice echoing everywhere at once. It sounded deep, profound, and incredibly emo.
+
+"Why did the vessel step before the void?" the dream-figure intoned sadly, its voice vibrating in Korelius’s teeth. "A borrowed life exchanged for a stolen death. I am humbled so you may remain full. We are alone together in this exchange of souls. I was alone in need of an escape. I was alone, but the dragon is now safe. Held again."
+
+Korelius blinked. He had no idea what any of that meant, but it sounded terrifyingly expensive. "Uh, Dantez?"
+
+The glowing silhouette froze. The air grew heavy. Slowly, ominously, the figure turned around to face him. Korelius braced himself for some world-shattering revelation or a mystical threat.
+
+The glowing figure grew a mouth and shrugged. "Oh, wassup dude."
+
+Korelius stared. The echoing voice was gone, replaced by the casual tone of someone asking for a pencil.
+
+"You kinda like, weren't supposed to hear all that sad boy shit," the dream-figure continued, scratching the back of It’s glowing neck. "That’s crazy tho. Hey, we make one now!"
+
+"What?" Korelius managed to squeak.
+
+"Yeah, don't worry about it. Anyway, gang, you gotta wake up."
+
+Dream-Figure reached for a handshake and Korelius reached for it, holding it tight.
+
+Korelius jolted upright in his actual bed, gasping for air. His sheets were soaked in sweat, and his heart was hammering against his ribs.
+
+"What the actual f—"
+
+He scrambled out of bed, tangling his foot in the sheets and nearly face-planting into his dresser. He stumbled into the connected bathroom, flipping on the light switch with trembling fingers.
+
+He gripped the edge of the sink and stared into the mirror.
+
+His face was the same average, slightly panicked face he’d always had. But above it, his aggressively normal brown hair was gone.
+
+Every single strand on his head was now a vibrant Pink.
+
+Korelius stared at his reflection for a full minute. He touched the hair. It was real.
+
+"Mirandine is going to kill me," he whispered to the empty bathroom.
+        </article>
+
+        <article data-title="Chapter 5: Just Open The Door">
+Surviving Mirandine Delees was hard. Surviving her when your head is like a sign was nearly impossible.
+
+Day one began with a beanie. Korelius pulled a thick winter hat over his ears and tried to casually walk to the kitchen. Mirandine took one look at him, smiled her terrifying smile, and asked why he was wearing wool in the house. He panicked, yelled something about a draft, and threw himself behind the living room sofa.
+
+He didn't leave his room for the rest of the day.
+
+By day three, Korelius had adapted. He realized Mirandine’s humming gave away her position. He spent his time memorizing the creaks in the floorboards. When she was in the kitchen, he army-crawled across the upstairs hallway to the bathroom.
+
+When she was doing laundry, he practically hung upside down from the staircase railing to snatch a piece of bread from the counter, his pink hair dangling dangerously close to her line of sight. He felt like a ridiculous, spotable ninja.
+
+Across the city, the silence in the Ofgreen estate was deafening.
+
+On the first day, Sofia knocked sharply on Dantez's heavy oak door. She demanded he come out for dinner. When he didn't answer, she yelled that he was being immature.
+
+By day three, the yelling stopped.
+
+Dantez lay on his bed, staring at the ceiling. The world was still gray. The lack of Eco in his veins made him feel like a ghost haunting his own childhood bedroom. He heard the soft slide of paper under his door. It was a note from Sofia, written in her immaculate handwriting, asking if he needed anything from the city. He left it on the floor.
+
+On day five, the heavy, prideful mask of the Ofgreen caretaker finally cracked.
+
+Dantez sat against his door, his knees pulled to his chest. On the other side of the thick wood, he could hear Sofia breathing unsteadily.
+
+"Dantez," she whispered. Her voice lacked its usual fire. It sounded small and exhausted. "Please. I didn't mean what I said. I know you're hurting. Just... just open the door. Please."
+
+Dantez closed his eyes. He wanted to speak. He wanted to tell her it wasn't her fault, that he wasn't mad at her, but the sheer effort of existing without his Essence kept his throat locked. He stayed silent.
+
+Back at the Delees household, Korelius’s luck finally ran out.
+
+It was the evening of the fifth day. He was doing a tactical roll past the hallway mirror, clutching a stolen bag of chips. He stood up, feeling victorious, only to freeze.
+
+Mirandine was standing at the end of the hall. She wasn't humming. She was staring directly at his pink head.
+        </article>
+
+        <article data-title="Chapter 6: Fair Enough">
+Dantez’s room looked like a library had exploded.
+
+Books on ancient Eco theory, biological Resonance, and soul manipulation covered the floor. For five days, he hadn't eaten. He barely slept.
+
+He sat in the center of the mess, his hands trembling as he stared at his palms. He closed his eyes, visualizing the pathways of his core, trying desperately to spark just a single drop of Essence. He pushed and pushed until his head throbbed.
+
+Nothing. Just an agonizing, hollow silence.
+
+Dantez slumped forward, burying his face in his hands. A new set of tears tracked down his pale cheeks. The emotional pain of being cut off from the world’s earthly logic was suffocating. He wasn't just powerless; he was entirely blind to the universe he used to understand so perfectly.
+
+The heavy door clicked open.
+
+Sofia stood in the doorway, taking in the chaotic room, the untouched food trays, and her brother's trembling shoulders. She pinched the bridge of her nose, her patience officially gone.
+
+"Dantez, this isolation ends today," she demanded, her voice tight. "You are rotting in here. Maybe hanging out with your friends would be good for you. Get out of this house."
+
+Dantez didn't look up. He wiped his face with his sleeve. "I don't have any friends, Sofia. No one likes me."
+
+Sofia opened her mouth to argue, but stopped. She looked at him. She thought about his arrogant, hyper-curious, rule-breaking personality at school.
+
+"Fair," she said calmly.
+
+She turned on her heel and walked out, mumbling something furious under her breath as she fought the urge to crash out completely. She marched downstairs, her mind racing. She sat at the grand dining table, tapping her manicured nails against the wood.
+
+"Barnaby," she called out to the family’s head butler. "Bring me the official estate stationery. I need to send a letter."
+
+Across the city, Korelius was absolutely terrified.
+
+Mirandine stood at the end of the hallway, looking dead into his eyes. She didn't make a single sound. She just turned and walked slowly into the living room.
+
+Korelius felt his soul leave his body. He shuffled after her, preparing for the end of his life.
+
+She sat gracefully on the couch and patted the cushion next to her. Her face was completely calm. "Sit."
+
+He sat down, stiff as a board.
+
+"I asked for a change," Mirandine said quietly, staring straight ahead. "But I wasnt expecting this."
+
+"Mirandine, look, the hair, I know it's insane, I can explain—"
+
+"I mean, truly," she continued, completely ignoring his apology. "The awareness. The agility. The stealth."
+
+Korelius blinked. "Say what now?"
+
+She finally turned to look at him, her terrifyingly pleasant smile returning. "I've got to see the creativity in you that you lost a while ago. I'm glad, for once."
+
+"Wait." Korelius stared at her. "You're... you're not mad about the hair?"
+
+Mirandine threw her head back and laughed. "I'm your sister, Korelius, not your mother! HAHAAH!"
+
+Korelius let out a massive sigh of relief. He started laughing too. It felt so good to just laugh about how absurd this all was. They laughed together, their voices getting gradually louder, echoing through the small house.
+
+And then, Mirandine’s face instantly dropped stone cold. She stopped laughing completely.
+
+Korelius choked on his own chuckle, freezing in terror.
+
+"I already saw your hair five days ago," she said, her voice entirely flat. "But I decided to let you sit with your own thoughts about the consequences of your actions. It seems like it's time for us to talk. About what truly happened in that valley."
+
+Korelius swallowed hard. The jig was up. He opened his mouth to try and figure out how to explain the massive genius Essence currently living in his chest.
+
+Before he could speak, a sharp knock echoed from the front door.
+
+Mirandine’s eyes narrowed. She stood up, her Aura flaring just a fraction of an inch, and walked to the door. She opened it to find a courier holding a thick, cream-colored envelope sealed with expensive green wax.
+
+She took it, broke the seal, and read the elegant handwriting.
+
+"Well," Mirandine said softly, looking back at Korelius. "It seems your story will have to wait. We've been invited to the Ofgreen estate by Sofia Ofgreen. For a full-day trip.”
+        </article>
+
+        <article data-title="Chapter 7: Welcome Home">
+The carriage ride to the Ofgreen estate was entirely too quiet.
+
+Korelius sat awkwardly. Across from him, Mirandine sat perfectly upright. Resting on her lap was a massive, heavy-looking metal briefcase.
+
+Korelius stared at it for a solid three minutes before he couldn't take it anymore.
+
+"Mirandine," he asked cautiously. "Why are you bringing a weaponized briefcase to a playdate?"
+
+She didn't open her eyes, but her terrifyingly pleasant smile appeared. "It is polite to bring a gift to a host, Korelius." She patted the metal softly. "And with a family like the Ofgreens, we never know."
+
+Korelius swallowed hard and looked out the window.
+
+When they finally arrived at the estate, Korelius’s jaw dropped. The Ofgreen manor didn't look like a house; it looked like a fortified palace. The massive, gold-inlaid front doors towered over them.
+
+As they walked up the pristine stone steps, the heavy doors suddenly burst open.
+
+A deafening cheer erupted. Two dozen staff members in immaculate uniforms stood in perfect formation. Confetti cannons fired, raining shimmering gold and green paper over the steps. Two servants unrolled a massive velvet banner that read: WELCOME HOME.
+
+Korelius stopped dead in his tracks. A huge, goofy grin spread across his face.
+
+"Wow," Korelius whispered, wiping a tear of joy from his eye. "I mean, I know I'm suspended, but they really go all out for guests. This is crazy."
+
+Mirandine didn't smile. Her eyes narrowed.
+
+A shadow fell over them. A sleek, obsidian-black transport vehicle had silently pulled up right behind them.
+
+The staff completely ignored Korelius. They rushed past the Delees siblings, bowing deeply as the transport door opened. A tall, impeccably dressed man with cold, calculating eyes stepped out. Xander Ofgreen didn't even glance at Korelius’s pink hair as he strode through the doors.
+
+The staff instantly funneled inside behind him.
+
+SLAM.
+
+The massive golden doors shut tightly. The cheering vanished.
+
+Korelius and Mirandine were left standing alone on the enormous stone porch. A single piece of green confetti drifted down and landed on Korelius's nose.
+
+Somewhere in the sprawling hedges, a cricket chirped.
+
+Before Korelius could process the embarrassment, a smaller side door flew open. Sofia Ofgreen stumbled out, looking absolutely unhinged. Her fiery composure was completely gone. She was clutching a clipboard like it was a life preserver.
+
+"I forgot!" Sofia yelled to a panicked butler trailing behind her. "I was so focused on Dantez’s invitation that I completely forgot the Head of the Household was returning from the Guild summit today! We are so dead!"
+
+She crashed to a halt when she saw Mirandine and Korelius standing in the dust.
+
+Sofia scrambled to fix her posture, smoothing down her skirt and taking a deep breath to hide her absolute panic. She stepped forward and offered a stiff, formal bow. Mirandine bowed back, her smile perfectly serene despite the chaos.
+
+"Mirandine Delees," Sofia said, her voice slightly breathless. "Welcome to our home. I apologize for the... abruptness at the door."
+
+Sofia stood up and turned her gaze to Korelius. She opened her mouth to greet him, but her eyes locked onto his head.
+
+"What? What happened to—?"
+
+Korelius cut her off instantly, raising one hand by the wrist. "Don't worry about it. Just pretend it's brown."
+        </article>
+
+        <article data-title="Chapter 8: We Aren’t Friends">
+Sofia blinked at Korelius's pink hair one last time before forcing herself to look away. She took a deep breath, her fiery composure returning.
+
+"Right. Well. I hope you will not be too bothered with having dinner with our family tonight, are you?"
+
+Korelius and Mirandine, their amber eyes completely unreadable, shook their heads "no" in perfect, silent harmony.
+
+"Excellent," Sofia said, turning on her heel. "Follow me."
+
+Walking into the Ofgreen manor was like walking into a museum that someone actually lived in. Everything was trimmed in gold and deep green. The ceilings stretched up into massive archways, and the floors were polished to a mirror finish.
+
+"Whoa," Korelius breathed out, staring at a massive crystal chandelier that seemed to hum with faint Eco. "Is that thing glowing on its own?"
+
+Sofia glanced back, a deeply satisfied smirk pulling at her lips. "Yes. It is a self-sustaining Eco crystal imported from the eastern peaks. My grandfather installed it."
+
+"That is insane," Korelius muttered, nearly walking into a marble pillar because he was staring at the flawless architecture. "And the floors? Are they heated?"
+
+"Geothermal Eco-weaving," Sofia answered, her chest puffing out just a fraction with absolute pride. She slowed her pace, pointing to the glowing runes along the baseboards. "It took three generations to perfect. I recently recalibrated the compression nodes myself to save energy."
+
+Korelius stopped walking and looked at her, genuinely impressed with his amber eyes entirely sincere.
+
+"You know," Korelius smiled easily. "Between writing books on Eco fundamentals, managing this entire palace, and recalibrating ancient magic systems, I'm starting to think you're the actual genius of the family."
+
+Sofia froze. A very sudden, very obvious flush of pink dusted her pale cheeks. She blinked, entirely unused to casual, genuine compliments that didn't come with political strings attached.
+
+She quickly adjusted her collar, looking away, though she failed to hide the small, shy smile breaking through her strict mask.
+
+"Flattery will not excuse your... aesthetic choices, Korelius," Sofia said haughtily, though her voice was noticeably softer. "But yes. I suppose I do carry the intellectual weight of this household quite beautifully."
+
+"You definitely do," Korelius chuckled. "It’s impressive."
+
+Behind them, Mirandine walked silently, a quiet, amused chuckle vibrating in her chest as she watched the exchange.
+
+Sofia cleared her throat and quickly led them into a lavish guest meeting room. The chairs were softer than Korelius's actual bed. A servant immediately appeared, placing a tray of delicate, steaming teas and iced drinks on the table before vanishing just as quickly.
+
+Sofia sat down, crossed her legs, and returned to business.
+
+"To be completely blunt," Sofia began, her tone cordial but stern. "Dantez has been depressed, dirty, and entirely unproblematic for the past five days. It is terrifying."
+
+Korelius paused with a glass of iced water halfway to his mouth. "Unproblematic?"
+
+"He hasn't broken a single rule, blown anything up, or talked back," Sofia said seriously. "He just sits in the dark. As his only friend, I require you to intervene."
+
+"Whoa, hold on," Korelius put the glass down. "We aren't friends. I don't really know him at all. We just got caught in the same place at the wrong time."
+
+Sofia kept her posture perfect, stirring her tea gently. "Be that as it may, he needs a peer right now. I am asking you, officially, as a representative of the Ofgreen family, to assist us in pulling him out of this slump."
+
+"I seriously have no idea what to say to him, Sofia. I'm just an average guy. He's a genius."
+
+"Korelius, I assure you, it will only take a moment of your time—"
+
+"I don't think I'm the right guy for this," Korelius insisted, rubbing the back of his neck. "Especially not today."
+
+Sofia’s teacup rattled against the saucer. The silence in the room stretched for one agonizing second.
+
+Then, the mask shattered.
+
+Sofia slammed both hands onto the table, leaning entirely across it, her bright green eyes wide and wild.
+
+"I am begging you," she gasped, her voice completely devoid of pride.
+
+Korelius jumped back in his chair, terrified. "Whoa!"
+
+"Please!" Sofia pleaded, her voice rising in pitch as absolute desperation took over. "He won't look at me! He won't talk! Xander is going to eat him alive if he sees him like this! I will pay you! I will fund your entire next semester! I will buy you a car! Please, I am literally on my hands and knees in my mind right now, just go in there—"
+
+"Okay! Okay, stop!" Korelius waved his hands frantically, deeply deeply uncomfortable seeing this powerful, fiery woman completely lose her dignity. "Please stop begging! I'll do it! I'll go talk to him, just please stop groveling, it's stressing me out!"
+
+Sofia instantly sat back down. She smoothed her skirt, crossed her legs, and elegantly picked up her teacup. Her face was perfectly composed, her breathing steady.
+
+"I appreciate your cooperation," Sofia said coolly, taking a delicate sip as if the last thirty seconds had been a shared hallucination.
+
+Mirandine, who had been quietly sipping her tea the entire time, let out another soft chuckle.
+
+Sofia pressed a small silver bell on the table. A staff member instantly materialized in the doorway.
+
+"Take Mr. Delees up to Dantez's quarters," Sofia instructed, not looking at the servant. "And make sure you bring them both back down to the main dining hall at six sharp. With the Head of the Household returning, attendance is absolutely mandatory."
+
+The servant bowed to Korelius, gesturing to the door.
+
+Korelius stood up, feeling like he had just been hit by a truck. He looked back at his sister for help.
+
+Mirandine didn't get up. She simply took a slow sip of her tea, tilted her head, and gave him a cheerful, terrifyingly pleasant little wave goodbye.
+
+Korelius sighed in absolute despair and followed the servant out the door.
+        </article>
+
+        <article data-title="Chapter 9: You shouldn’t have">
+The servant vanished down the hall just as fast as he had arrived, leaving Korelius standing alone in front of a massive oak door.
+
+Korelius stared at the polished wood. A deep, agonizing inner thought echoed in his mind: The fuck am I doing here?
+
+He raised his fist, preparing himself to knock.
+
+The door swung open before he could touch it.
+
+Korelius blinked. He expected a depressed, unwashed mess. Instead, Dantez looked incredibly put together. His usually casual, chaotic hair was slicked back sharply. He wore perfectly tailored dress pants, polished shoes, and a dark vest over a crisp shirt.
+
+They stood there for three agonizing seconds in a dead silent stare-down.
+
+"The fuck are you doing here?" Dantez asked, his voice entirely flat.
+
+"I don't know!" Korelius threw his hands up. "I was basically summoned to you!"
+
+Dantez sighed, stepping out of the room and walking right past him. "Great. Another witness to my public execution."
+
+Korelius scrambled to follow him down the hall. "Public execution?"
+
+"I'm guessing my sister invited you," Dantez said, not looking back. "Because she believes I need a friend?"
+
+"Ah... uh, yeah."
+
+Dantez sighed again, pinching the bridge of his nose. "Are you having dinner with us tonight?"
+
+"Yes."
+
+"Okay. We have a little time. Come with me."
+
+Dantez led him into a sprawling, private changing room connected to the guest wing. He walked over to a massive mahogany wardrobe, pulled out a set of sleek, dark casual-formal wear, and tossed the hangers at Korelius.
+
+"Wear this," Dantez instructed, sitting down on a velvet bench while Korelius stepped behind the changing screen.
+
+For a moment, the only sound was the rustling of fabric. Then, the genius finally asked the obvious question.
+
+"What happened to your hair?" Dantez called out.
+
+"Don't ask," Korelius grumbled from behind the screen. "I woke up like this."
+
+"How?"
+
+"I don't know, dude! I had a weird dream about this and that, and then I woke up with my hair pink like this. Don't worry about it."
+
+"We should look into that," Dantez said, his analytical brain instantly taking over. "Isn't that an Eco reaction? Are you an Essence user?"
+
+"I don't know."
+
+"We have to know, Korelius."
+
+"Do you understand that this whole situation is incredibly strange for me to begin with?" Korelius snapped, wrestling with a high-collared shirt.
+
+"I mean, your hair is pink, yeah, but—"
+
+"Yes, Dantez," Korelius interrupted, his voice dropping all of its comedic panic. "And I died."
+
+The sprawling changing room went completely dead silent.
+
+Korelius stepped out from behind the screen. The tailored clothes fit him surprisingly well, contrasting sharply with his bright hair and exhausted amber eyes.
+
+"Then I got suspended," Korelius said firmly. "I received a severe beating from my sister, and now I'm forced to be here too. I can barely understand my own life right now. So please, stop asking questions."
+
+Dantez sat perfectly still on the bench. He looked at the aggressively average boy who had literally taken the fall for him in the valley.
+
+"Okay," Dantez said quietly, the arrogant edge gone from his voice. "My bad."
+
+Dantez stood up, brushing a piece of invisible lint from his vest. He looked Korelius dead in the eye.
+
+"Why did you follow me back then?" Dantez asked, his tone shifting into something heavier. "You really shouldn't have."
+
+Korelius didn't blink. He stared right back at the hollowed-out genius.
+
+"Why did you go to a forbidden place?" Korelius shot back. "You shouldn't have."
+        </article>
+
+        <article data-title="Chapter 10: That’s Not True">
+Dantez stared down at him and said, “Fair. You’re right, I shouldn’t have. And I’m dealing with the consequences.”
+
+Dantez hummed quietly and said, “Thank you for saving me that day.”
+
+It took Korelius aback, but he appreciated it. “You too, thanks for saving me.”
+
+Dantez nodded. “Okay, let’s move.”
+
+They both made their way to dinner. Dantez pushed open the massive, gold-inlaid dining hall doors. The room, which had been booming with loud chats and aristocratic laughter, suddenly turned into dead silence.
+
+Every single head turned to look at them. A sea of notorious golden hair and piercing green eyes locked onto the doorway.
+
+Dantez walked forward like he was completely used to it. He pulled out a heavy oak chair and sat right beside his older sister Sofia and his older brother Gideon.
+
+Korelius scanned the massive, intimidating table. He found his sister sitting directly in front of Sofia and practically ran to sit beside her.
+
+Mirandine looked absolutely breathtaking. She was already an elegant, stunningly beautiful woman, but she had clearly received a high-society makeover that Sofia seemed incredibly proud of. Her deep amber eyes sparkled under the warm light of the Eco chandeliers.
+
+Korelius, on the other hand, felt acutely aware of his pink hair clashing violently with the room's pristine aesthetic.
+
+At the absolute head of the table sat Xander Ofgreen, the current leader of the family. His posture was rigid, his expression entirely cold and pragmatic. He didn't say a word as Dantez sat down.
+
+To Xander's right sat Bertalon, the retired grandfather. The terrifyingly silent patriarch didn't speak, preferring to observe the politics of his family from afar. His mere presence commanded an absolute, suffocating obedience over the room.
+
+Down the table, Silas, the aloof and arrogant researcher, swirled a glass of dark wine. He glared at Dantez, clearly viewing his younger brother's current state as the pathetic aftermath of a messy, unscientific tantrum.
+
+Across from Silas, Elara sat with perfect posture. As the family's hyper-competitive combat prodigy, she didn't even bother looking at Dantez. She sliced her steak with aggressive precision, disgusted by what she considered a pathetic waste of raw potential.
+
+Helda, their gentle, soft-hearted mother, kept her eyes glued to her lap. She looked paralyzed by the heavy atmosphere, silently heartbroken by how much Dantez’s rebellious, hollowed-out state mirrored the tragic fate of his dead father.
+
+Gideon leaned closer to Dantez. As the meticulous face of the family's morality and lawfulness, he couldn't resist twisting the knife.
+
+"Look at you," Gideon whispered harshly, seeing himself as inherently better than his younger brother. "You are an empty stain on the Ofgreen name. A direct insult to my career.".
+
+Dantez stared blankly at his empty porcelain plate. He didn't defend himself. He just let the public execution wash over him.
+
+The silence dragged on, broken only by the uncomfortable clinking of expensive silverware. Korelius was sweating profusely. He shot a desperate look at Mirandine, but she just maintained her terrifyingly pleasant smile, flawlessly playing the high-society game.
+
+Finally, Xander placed his silver fork down. The subtle clink echoed like a gunshot.
+
+The entire table froze.
+
+“Thank you, for your warm welcome, My siblings.” Xander reached for Helda’s hand and kissed it “Mother,” he said warmly and then immediately locked his cold, green eyes onto his youngest brother.
+
+Despite the charm, Xander viewed Eco purely as a currency to gaun influence and status. To him, Dantez was a massive liability who needed to be shamed in order to grow faster for the sake of the family.
+
+"Dantez," Xander's voice was quiet, but it easily commanded the massive room.
+
+Dantez slowly lifted his chin.
+
+Helda cut him off immediately “Xander baby please, not in front of guests and staff.”
+
+In which Xander smiled, holding her hand and said “It must be done, Mother.”
+
+She shifted back on her seat and Xander continued towards Dantez.
+
+"I heard news that you have lost your Essence, how unfortunate." Xander stated flatly. "A hollow vessel carries absolutely no say in our society, Youngest Brother."
+
+Xander leaned forward, resting his elbows on the table, letting the heavy, suffocating weight of the Ofgreen empire press down on the boy's shoulders.
+
+"This is where your continued tantrums have led you. Tell us Dantez, in front of us Essence geniuses," Xander asked, his voice cracking like ice, "Without your essence, what exact use are you to this family?"
+
+Dantez said absolutely nothing. He kept his hollow gaze fixed on his empty porcelain plate while Sofia rubbed her eyes to release her tension.
+
+The silence was an open invitation for the rest of the table to strike.
+
+"He is a stain on the Ofgreen name," Gideon scoffed, leaning back in his chair with a meticulous, arrogant posture. "A delinquent who finally played too close to the fire."
+
+"It was inevitable," Silas added, swirling his dark wine. "When you treat Eco like a child's messy tantrum instead of a sterile science, this is the exact result."
+
+Elara didn't even look up from her steak. "Always a fun time with the Ofgreens," she muttered, slicing the meat with aggressive precision.
+
+The suffocating pressure of the Ofgreen dynasty pressed down entirely on Dantez's shoulders. Helda flinched, her quiet, paralyzing care deepening as she stared at her son.
+
+Across the dining hall, Korelius felt his heart hammering against his ribs.
+
+He looked at Dantez taking the abuse and remembered the crater in the valley. Korelius had died saving him from the fallout. But Dantez had performed an impossible feat, unintentionally transferring his entire Essence to bring Korelius back to life. Dantez wasn't empty because he was a failure. He was empty because he had saved Korelius's life.
+
+"That's not true."
+
+Korelius thought he had whispered it to himself. But in a room suffocated by dead silence, the words carried perfectly across the long mahogany table.
+
+Every single pair of notorious green eyes snapped toward the source.
+
+Korelius paniced on the insisde “why the fuck did i say that?” But He didn't yell or scream. Instead, he channeled the terrifyingly calm composure of the sister sitting right next to him and cleared his throat as if nothing happened.
+
+Xander slowly turned his cold, pragmatic gaze away from Dantez and locked it onto the boy sitting in his dining hall.
+
+"Is that so?" Xander asked quietly.
+
+Korelius peeked at Dantez who was subtly shaking his head without panic on his face.
+
+After a deep look at Dantez, Korelius said "Dantez has scored highest in the school for as long as I can remember , especially in the history and literature of Eco." Korelius turned his gaze back to Xander, his voice incredibly steady despite the pink hair on his head. "He's a genius. He could potentially understand Eco better than anyone in this room."
+
+Xander’s gaze shifts between the 2 boys until he finally closes them. A smile tugging at the corner of his lips he says. “Essence Loss is permanent. Unless he resorts to Aura, but it would take him years and years to be of use. A genius should be able to understand that, am I wrong?”
+
+"Yes," Korelius replied, refusing to back down under the crushing pressure. "And he's going to prove it soon. Within a month even. He's going to show all of you that his theories actually work."
+
+Dantez’s hollow eyes widened with absolute horror as he stared at Korelius.
+
+Xander said “Done. Within a month, I shall better see a promise delivered. If not, I hereby declare Dantez eligible to be disowned from the family.”
+        </article>
+
+        <article data-title="Chapter 11: We Are Eco">
+Mirandine hummed briefly, a subtle use of the rare breathing technique her mother taught her.
+
+At the head of the table, Bertalon, the terrifyingly silent patriarch, immediately shifted his rigid posture. He locked his intense, observing gaze onto her, sensing the subtle shift in the air.
+
+Mirandine gracefully stood from her chair and offered a flawless, deep bow.
+
+"Lord of the Ofgreens," Mirandine said smoothly. "Please accept my apologies on behalf of my rude little brother. He wasn’t taught proper ethics."
+
+She shot a quick, glacier-cold side-eye toward Korelius, making him sweat profusely under his pink hair.
+
+Xander smiled, the charming but calculating mask returning to his face. "By all means. And who do I have the privilege to speak to?"
+
+"My lord, you flatter me," she replied. "I am Mirandine Delees, Eldest of the house."
+
+"A name befitting your beauty," Xander smoothly noted, swirling his glass. "Whose guest are you?"
+
+Sofia quickly spoke up, sitting perfectly straight. "They are my guests, Xander."
+
+"You sure have a lovely bunch," Xander laughed, the sound echoing through the massive hall. "I tell you what. Allen! Make sure to prepare two rooms for the Delees. You may reside here for a month as you please, until the promise date."
+
+"It’s an honor, Lord, truly," Mirandine replied with a polite dip of her head. "But I must leave by night for work."
+
+The entire dining room let out a collective gasp of awe.
+
+"Sweet Mother," Silas muttered into his dark wine.
+
+Helda clutched her pearls, her soft heart practically bursting. "A lady of your looks shouldn’t be working!"
+
+Elara didn't look up from her steak. "That’s exactly how we’re supposed to move," the combat prodigy muttered with aggressive precision.
+
+"There's no better way to get a man nowadays," Sofia stated matter-of-factly, crossing her arms.
+
+"What man?" Silas and Gideon said in perfect, mocking unison.
+
+Sofia's fiery temper flared, and she leaned over the table, violently pulling on Gideon’s ears. He yelped, slapping at her manicured hands.
+
+Suddenly, a loud wail interrupted the bickering. A toddler—Elara's two-year-old son—had started crying in a highchair near the corner.
+
+Instantly, Elara dropped her steak knife. The hyper-competitive fighter's tough demeanor completely faltered. She practically dove across the room, scooping the boy up. "Awe, my babyyy! Mama’s here, what’s wrong my baby?" she cooed, bouncing him gently.
+
+Dantez completely ignored the chaos. His head was slumped heavily against the mahogany table.
+
+Xander waved a dismissive hand. "Allen, prepare a ride for Lady Delees. We’ll personally escort her to the city. As for Korelius..." Xander, the pragmatic leader who used Eco purely to maintain influence, locked his cold green eyes onto the boy. "I hope you don’t mind being here for a bit longer, don’t you?"
+
+Under the crushing pressure, Korelius aggressively shook his head back and forth.
+
+"Good," Xander said.
+
+Dinner concluded shortly after. Mirandine departed for her secret life in the Guilds, leaving Korelius entirely stranded in the fortified palace.
+
+A servant escorted Korelius and Dantez to Korelius's newly assigned guest room. The second the heavy door clicked shut, Dantez collapsed into an armchair. He buried his face in his hands, agonizing over the sheer impossibility of what had just happened.
+
+Korelius tapped his hands on his pants rhythmically and opened his mouth. "Hey, look, I—"
+
+Dantez threw a hand up, cutting him off completely.
+
+"So let me get this straight," Dantez said, his voice dangerously low. "Your dumbass had the balls to talk back to my eldest brother. Mind you, THE HEAD of my insane family. Just so you could apply a date to my personal death?"
+
+Korelius winced. "Well, when you say it like that..."
+
+"Korelius." Dantez took a sharp, ragged breath, looking up with absolute horror in his hollow eyes. "You don’t seem to be understanding the situation. You have CONVINCED a five-star rated Eco Genius that I, a currently disabled nobody, can REVERSE—now hear this—CAN REVERSE Essence loss. Are you out of your fucking mind?"
+
+Korelius said nothing. He slowly sat down on the edge of the lavish bed.
+
+"Korelius, what the fuck am I supposed to do?" Dantez shouted gently, the arrogant edge completely gone. "I can’t anymore. I can’t sense Eco. Nothing tastes, smells, or sounds the same. How am I supposed to reverse something if I can’t even begin to understand it? There is NOTHING here."
+
+The desperate silence hung heavy in the room.
+
+Korelius took a long moment. He looked at the genius who had sacrificed everything to bring him back from the dead.
+
+"Well," Korelius said slowly. "There is you here. And there is me as well, I guess."
+
+Dantez just stared at him, exhausted.
+
+"I don’t know what that really means," Korelius continued, pointing to his pink hair and then pressing a hand against his chest, right over the massive, foreign presence boiling inside him. "But the fact that we exist can only mean that we are Eco as well, no?"
+
+The room went completely silent.
+        </article>
+
+        <article data-title="Chapter 12: Is That Safe?">
+The guest wing of the Ofgreen estate quickly turned into a hazard zone.
+
+For an entire week, Dantez treated his pristine bedroom like a chaotic, unhinged archive. He was desperate. Since he was now entirely blind to the universe's magic, he had to rely completely on things he'd read to test his theories on Korelius's body.
+
+It started small. On Tuesday, Dantez decided to test sensory absorption.
+
+He handed Korelius a jagged, violently humming blue rock. It was a raw, unrefined Eco-crystal.
+
+"Hold this," Dantez instructed, his hair sticking up in every direction. "It's known that Essence acts like the soul's interpreter. It translates the Eco in what we touch and eat to weave magic. I read somewhere that if you introduce a highly concentrated, incompatible Eco-stone to a dormant pool, it forces a violent rejection. Kind of like a reflex."
+
+"Is that safe?" Korelius asked, sitting comfortably in a plush armchair.
+
+"Theoretically, yeah," Dantez said, hiding behind a thick leather chair. "Squeeze it."
+
+Korelius squeezed the humming rock.
+
+Nothing happened.
+
+"It kind of just tickles," Korelius said, tossing the rock back to Dantez.
+
+The second the crystal left Korelius’s hand, the suppressed Eco violently backfired. A massive blue spark shot out, hitting Dantez directly in the chest. The hollow genius flew backward and crashed into a bookshelf with a loud groan.
+
+Korelius blinked. "Are you okay?"
+
+"Mark that down," Dantez wheezed from the floor, smoke rising from his vest. "The vessel's absorption is seamless. It neutralized the stone completely."
+
+By Thursday, Sofia started getting suspicious.
+
+She opened the heavy oak door to find Korelius sitting cross-legged on the floor while Dantez aggressively compared the shape of Korelius's skull to an old, dusty textbook.
+
+"What exactly is going on in here?" Sofia demanded, crossing her arms.
+
+Korelius looked up. His pink hair was a mess, but he broke into a massive, genuine smile.
+
+"Sofia! Hey!" Korelius beamed, standing up. "It is so good to see you. I was just telling Dantez how much better this room looks compared to the rest of the wing. Did you design the layout? It’s incredibly elegant."
+
+Sofia froze. A very sudden flush of pink dusted her pale cheeks. Her fiery rage completely evaporated.
+
+She adjusted her collar, a deeply satisfied smirk pulling at her lips. She stood a little taller. "I did, actually. The spatial flow allows for optimal natural lighting. It is nice to see someone finally appreciates my eye for detail."
+
+Dantez stared at them both in absolute disbelief.
+
+The peace did not last.
+
+On Saturday, Dantez brought out a massive, pressurized Eco-cylinder covered in glowing runes. He looked completely exhausted.
+
+"Okay," Dantez muttered, flipping through a crumbling manuscript. "It's a basic rule of earthly logic that Aura and Essence mix like water and oil. Using both at the same time is logically impossible. Gathering environmental Aura overloads the inner pool and causes a massive disturbance."
+
+"Right," Korelius nodded, happily eating a stolen sandwich. "Obviously."
+
+"So," Dantez continued, attaching nodes to Korelius's chair. "I am going to use this cylinder to force a thick Aura-vacuum around you. By suffocating your immediate environment with Aura, the massive Essence inside you should panic. It'll be forced to breach the surface to repel the disturbance, and I can finally see it."
+
+Korelius gave a blind thumbs up. "Yeah, man. Do it."
+
+Dantez pressed the button.
+
+The cylinder shrieked. For a split second, a heavy, suffocating layer of Aura compressed around Korelius.
+
+Then, the massive, foreign genius Essence resting inside Korelius's chest reacted. It violently and aggressively rejected the Aura overload. A concussive wave of raw, invisible energy erupted from Korelius’s core.
+
+BOOM.
+
+Korelius was launched completely off his feet. He flew across the room, crashed into the ceiling, and slammed down onto Dantez’s expensive mahogany desk. Wood splintered everywhere.
+
+The door flew open. Sofia ran inside, her green eyes wide with absolute panic.
+
+"Korelius!" Sofia screamed. She rushed past her brother and fell to her knees next to the rubble.
+
+Korelius groaned, rubbing his ribs as he coughed up a cloud of dust.
+
+Sofia whipped her head around, blazing with pure fury. "Dantez Ofgreen! Are you actually trying to kill our guest? What is wrong with you?"
+
+"It was a controlled environmental disturbance!" Dantez argued defensively, dusting plaster out of his hair.
+
+"He went through the ceiling!" Sofia yelled, pointing at the massive dent. She looked back at Korelius, her voice softening with reluctant care. "Are you alright? You're bleeding."
+
+Korelius looked down. A long, nasty scrape ran across his forearm from the splintered wood.
+
+"I'm fine," Korelius grunted, sitting up. He wiped the blood away.
+
+That was when they all saw it.
+
+Underneath the blood, the skin was already knitting itself back together. Within seconds, a faint, pinkish mist hovered over the wound. In less than two hours, the deep scrape would be completely vanished, leaving flawless skin behind.
+
+Dantez dropped his manuscript.
+
+"Your cellular regeneration..." Dantez whispered, his brow furrowing in deep confusion as he stared at the pink mist. "Something is off. Even with my Essence at its absolute peak, it never did that for me. This kind of immediate, physical reinforcement... you only really read about that with Aura users."
+
+Korelius stood up, dusting off his pants. He looked at the destroyed room, then at Dantez's completely bewildered face.
+
+An entire week of agonizing, painful, chaotic experiments. And while they had proved the Essence was inside him, absolutely none of them had figured out how to get it out. They were no closer to meeting Xander's deadline than they were on day one.
+
+Korelius let out a long, exhausted sigh.
+
+"We're calling my sister..."
+        </article>
+
+        <article data-title="Chapter 13: Fix Him">
+Dantez stared at the ruined bedroom, aggressively chewing his thumbnail. "Okay, wait. If the atmospheric siege didn't pull the Eco out, maybe if we invert the polarity. The texts from the Third Age mention—"
+
+"We're done for the day," Korelius said, grabbing his jacket.
+
+Dantez whipped around. "What? Why?"
+
+"Because we need help, Dantez," Korelius said, walking toward the door.
+
+"Where are you going?" Dantez demanded, stepping in front of him. "If we can just figure out one more variable tonight, I can cross-reference the—"
+
+"To sleep," Korelius interrupted firmly. "Dantez, Eco is important. But proper rest can help clear up the brain. That’s important too."
+
+Dantez looked wildly around his chaotic, destroyed archive of a room, his genius mind practically vibrating with the need to keep reading. He looked at Korelius's exhausted face. Dantez let out a long, heavy sigh of quiet defeat.
+
+"Yeah. Okay," Dantez muttered, slowly starting to gather his scattered notes.
+
+Korelius smiled faintly, stepping out into the hallway. "Three more weeks. We got this."
+
+The next morning, Dantez walked into a sprawling guest study room. He stopped dead in his tracks.
+
+A large white board had been wheeled into the center of the room. Korelius was sitting at one of the desks, looking surprisingly awake.
+
+"What is this, Korelius?" Dantez asked, his eyes narrowing.
+
+"I asked my sister if she could give us a crash course on Aura," Korelius said casually. "She might not seem like it, but she’s pretty passionate about it. Let’s just say she knows a thing or two."
+
+"Why?" Dantez crossed his arms. "Aren’t we dealing with an Essence transfer here?"
+
+"I was thinking about it last night," Korelius explained. "And I came to the conclusion that maybe we need to look at Eco from a completely different angle. Even just for a day. If you understand how Aura naturally rejects Essence, maybe it’ll help us figure out how to untangle them in our later experiments."
+
+Dantez frowned, processing the logic. "Fine. I guess one day won't hurt. But why is Sofia here too?"
+
+"Sofia?"
+
+Korelius turned around. Sitting a few rows back, with her arms formally crossed and her posture perfect, was Sofia Ofgreen. Korelius offered her a gentle, easy wave.
+
+Sofia’s strict face softened for a fraction of a second, and she offered a small, shy wave back, clearly flattered to be included.
+
+Korelius turned back to Dantez. "Probably just watching to make sure nothing goes boom again."
+
+"Right. And Grandpa?" Dantez asked, his voice dropping to a harsh whisper.
+
+The two boys slowly turned their heads. Sitting in the darkest corner of the room, completely motionless, was Bertalon Ofgreen. The terrifyingly silent patriarch didn't say a single word. He simply gave them a single, slow nod.
+
+The boys slowly turned back around.
+
+"What the fuck is wrong with this family," Dantez muttered under his breath.
+
+Before Korelius could answer, the heavy double doors flung open. A sweet, rhythmic humming melody caressed everyone’s ears as Mirandine Delees strolled gracefully into the room, stepping right up to the whiteboard.
+
+"Aura," Mirandine began, her voice firm, elegant, and instantly captivating.
+
+The atmosphere in the room immediately shifted. This wasn't a casual chat; it felt like a masterclass.
+
+"To truly understand Aura, you must respect its scale," Mirandine explained, picking up a marker. "As an Essence user, Dantez, you are used to bringing your inner Eco outward. You rely on a finite pool. Aura is the exact opposite. Aura is unlimited, because environmental Eco is everywhere."
+
+She drew a large circle on the board. "But it is exactly this limitless nature that makes it incredibly dangerous to master. Aura does not create; it pulls. It demands that the user draw in the wild Eco of the environment and bend it to their will."
+
+The focus of everyone in the room was through the roof. Dantez leaned forward, his scholarly obsession completely overriding his earlier annoyance. He raised his hand.
+
+"If the environment is limitless," Dantez asked, "how do you control the intake? Can you expand on the mechanics of focus?"
+
+"Glad you asked," Mirandine smiled her terrifyingly pleasant smile. "To control environmental Eco, an Aura user must turn their own mind into a gravitational anchor. A sucking Eco vortex. With immense mental fortitude, we activate this vortex and force the wild Eco to gather and compress at specific points, like the soles of our feet for speed, or the tip of a sword for impact."
+
+She tapped her temple. "Focus mastery is what separates the dead from the elite. The denser you want the Eco to be, the more aggressive your focus must be. If your concentration breaks for even a fraction of a second during a fight, the Eco violently disperses."
+
+"So how do you manage to hold that state?" Dantez asked, utterly fascinated.
+
+"It depends on the user," Mirandine answered smoothly. "Some people use controlled breathing techniques. Some require absolute, dead silence to anchor their minds. Some can’t stop talking to maintain their rhythm. While others..."
+
+Mirandine closed her amber eyes, tilting her head slightly. "...hum."
+
+A physical, icy chill shot down the spine of every Ofgreen in the room. The class continued in absolute, rapt attention.
+
+Two hours later, the lecture concluded.
+
+Dantez practically sprinted out of the room, his mind ablaze with new theories regarding Eco-rejection. Korelius and Sofia followed closely behind, amiably discussing the notes.
+
+Mirandine stayed behind to casually erase the whiteboard.
+
+She wasn't alone.
+
+The room was heavy with tension. In the corner, Bertalon finally stood up. The terrifying patriarch walked slowly toward the front of the room.
+
+"I did my research on you," Bertalon's deep, gravelly voice echoed in the empty study. "It was incredibly difficult. I had to pull many of my oldest, most guarded favors to bypass the Guild encryptions and find out about you."
+
+Mirandine paused her erasing. She let out a soft, amused hum. "Hoho. And what exactly did the retired Lord of the Ofgreens find out about me?"
+
+"Black Song," Bertalon stated flatly. "Captain of the infamous strike guild, The Hummingbirds. I know absolutely everything about your operational history and your Guild's work."
+
+Mirandine slowly turned around. Her pleasant smile was entirely gone. Her deep amber eyes locked onto the old man with a cutthroat, glacier-cold side-eye. The ambient Eco in the room seemed to drop by ten degrees.
+
+"So," Mirandine said, her voice dangerously soft. "Then you must also know what happens to people who uncover our true identiti—"
+
+Thump.
+
+Bertalon Ofgreen dropped squarely onto his knees, bowing his head toward the floor.
+
+"Please marry my grandson," Bertalon begged loudly.
+
+Mirandine blinked, the terrifying pressure instantly vanishing from the room. "Eh?"
+
+"Xander," the former Lord pleaded from the floor. "He is a capable boy, I promise you. But he is thirty years old, consumed entirely by the Guilds and his politics, and he refuses to start a family. He knows absolutely nothing about caring for a strong woman. I beg you to fix him."
+
+Mirandine stared at the most intimidating man in the country groveling at her feet. "Former Lord, please, stand u—"
+
+"Can I also get an autograph?" Bertalon interrupted, quickly pulling a sleek pen and a small notebook from his coat pocket, his terrifying eyes wide with genuine fanboy admiration.
+        </article>
+
+        <article data-title="Chapter 14: The Perfect Woman">
+The next morning, Korelius stood in front of Dantez’s heavy oak door. He knocked a few times.
+
+"Yo?" Korelius called out.
+
+It felt incredibly weird. Usually, Dantez was the one aggressively waking him up with some unhinged new experiment. Finally, the door clicked open.
+
+Dantez stood there with a piece of dry toast hanging out of his mouth. He didn't look up from the massive, crumbling book in his hands.
+
+"I'm busy," Dantez mumbled around the bread.
+
+"What are you reading?"
+
+"After your sister's lecture, I ran to the local archives and bought every text I could find on the ancient dialects of Eco," Dantez said, rapidly flipping a page. "There's a historical precedent about this whole 'Vortex' thing she mentioned, but the translation is heavily fragmented. I need to cross-reference the roots."
+
+"Ah. Uh, okay," Korelius blinked. "Can I help with anything?"
+
+"Yeah."
+
+Dantez said nothing else. He just kept reading.
+
+"With...?" Korelius prompted.
+
+"I'm thinking about it," Dantez muttered, his eyes darting across the old parchment.
+
+Korelius stared at the sleep-deprived genius. "You are barely speaking human language right now."
+
+"We'll talk later," Dantez said, casually kicking the door shut with his foot and leaving Korelius standing alone in the hallway.
+
+Korelius sighed and wandered down the hall, eventually stepping into a lavish guest bathroom. He leaned over the sink and looked at his reflection.
+
+Something was definitely off.
+
+He looked closer. He was noticeably taller—almost exactly Dantez's height now. His pink hair was vibrant, his skin was completely flawless from the rapid healing, and his naturally average frame was suddenly packed with lean, functional muscle.
+
+Slowly, Korelius opened his mouth.
+
+His teeth weren't exactly fangs, but they were noticeably sharper. Clean, pristine, and entirely predatory.
+
+He scratched his pink head. "What the hell is happening to me?"
+
+Before he could spiral into an identity crisis, heavy, frantic footsteps came stomping down the hallway.
+
+Korelius peeked his head out of the bathroom. Mirandine was speed-walking toward him. Her terrifyingly pleasant smile was completely gone, replaced by a look of absolute, unhinged desperation.
+
+In his twenty-two years of living, Korelius had never seen his sister look like this.
+
+"Koko," Mirandine gasped, grabbing his shoulders. "Help."
+
+Korelius's eyes went wide. She only used that childhood nickname when things were dire. "What the hell happened?!"
+
+Ten minutes later, they were sitting in Mirandine’s assigned guest room. The usually immaculate space was a complete mess. Clothes were thrown over chairs, and Mirandine was pacing furiously.
+
+"So, let me get this straight," Korelius said, leaning back in a plush chair. "You accidentally accepted a date to a party hosted by Grandpa Ofgreen? What's so wrong with that?"
+
+"I am supposed to go with Xander," Mirandine said, her voice cracking in pure distress.
+
+Korelius paused. "...As in, like...?"
+
+"Yes! As in, like!" Mirandine groaned, throwing herself face-first onto the lavish bed.
+
+"Oh." Korelius took a slow sip from a can of pop he had stolen from the kitchen. "How did that even happen?"
+
+"Grandpa Ofgreen," Mirandine mumbled into the mattress. "I don't know how he did it. He cornered me in the parlor, he used this incredibly complex conversational pacing, and I ended up just saying yes!"
+
+Korelius took a good look at the Black Song—the infamous, ruthless assassin of the Hummingbird Guild—currently having a total meltdown into a pillow.
+
+"Would you look at that," Korelius said casually. "My sister is an actual woman."
+
+Mirandine’s head snapped up, her amber eyes glaring daggers. "Can you shut up?! What do I do?"
+
+"I don't know."
+
+"What purpose do you serve?!" she yelled, throwing a decorative pillow at him.
+
+Korelius dodged it, sighing as he set his pop down. "Okay, fine. Maybe I do have a solution."
+
+Twenty minutes later, there were three of them in the room.
+
+"With my brother?" Sofia asked, her perfectly manicured hands resting on her hips.
+
+"Mhm," Korelius replied, taking another sip of his pop.
+
+Sofia looked at the flustered Guild captain on the bed. "Girl, what happened to you? Your entire face is flushed."
+
+"I don't know!" Mirandine cried out, covering her face. "I don't knoowww!"
+
+Sofia immediately shifted into her commanding, caretaker mode. "Okay. When is the date, sweetie?"
+
+"Tonight."
+
+"Oh, Lord. Okay," Sofia rolled up her sleeves. "We need to work on this immediately."
+
+Sofia forced Mirandine into a chair and went to work, expertly applying a flawless, natural-style makeup look that highlighted Mirandine's striking amber eyes without looking overdone.
+
+"Much better," Sofia declared, stepping back. "What do you think?"
+
+Korelius tilted his head, assessing the work. "Looks good. Good work, Sofia."
+
+Sofia smiled, a genuine blush of pride hitting her cheeks from the easy compliment. "Let's style her up now."
+
+Forty minutes later, there were four of them in the room.
+
+"And it was Mr. Bertalon Ofgreen who arranged this?" Helda asked, her soft, gentle hands sorting through a rack of expensive dresses.
+
+"Yes, Mom," Sofia replied, holding up a sleek black gown.
+
+"That old geezer is still playing his sly tricks, I see," Helda shook her head with a weary, knowing sigh. She turned to the terrified assassin. "There, there, come here, baby. Let's put some proper clothes on you."
+
+They shooed Korelius out into the hall. Ten minutes later, they let him back in.
+
+Helda gently guided Mirandine to the center of the room. She was wearing a stunning, elegant evening dress that fit her perfectly. She was physically shaking.
+
+"You look like a total princess!" Sofia squealed, clapping her hands.
+
+"You think so?" Mirandine asked, her voice trembling.
+
+"Yes, babe! What do you think, Korelius?"
+
+Korelius, still sipping from his can, casually threw up a thumbs-up.
+
+"Thanks, guys," Mirandine whispered, wrapping her arms around herself nervously.
+
+They all stopped and stared at her.
+
+"No," Sofia said, her fiery composure returning as she frowned. "This attitude won't do at all."
+
+An hour later, there were six of them in the room.
+
+"That sly old geezer is still at it..." Elara muttered, bouncing her two-year-old son lightly on her hip.
+
+"That's exactly what I said," Helda nodded in complete desperation.
+
+Elara, the family's hyper-competitive combat prodigy, looked Mirandine up and down. She saw a beautiful woman with the posture of a terrified prey animal.
+
+"Okay," Elara said, handing her baby to Helda. She cracked her knuckles. "Come with me, baby girl."
+
+Elara grabbed Mirandine by the wrist and marched her into the adjoining isolated dressing room, slamming the door shut.
+
+For the next ten minutes, muffled sounds of strict commands, posture corrections, and deep breathing exercises echoed through the wood.
+
+Finally, the door clicked open.
+
+Elara stepped out first, a deeply satisfied smirk on her face. "She is ready."
+
+Slowly but surely, Mirandine stepped out of the room. The terrified girl was completely gone. She walked like a perfect, untouchable model. Her posture was razor-sharp, her elegance was weaponized, and her terrifyingly pleasant, confident smile had fully returned. She radiated an aura of absolute perfection that physically blew the air out of the room.
+
+Sofia’s jaw dropped. "What did you do to her?"
+
+"Even I am shocked," Elara smirked, crossing her arms proudly. "Ladies, it seems we have created the perfect woman."
+        </article>
+
+        <article data-title="Chapter 15: I'd Love To!">
+Evening fell over the estate. Amidst the chaos of the dress fitting, Mirandine finally found a moment to isolate Korelius near the doorway.
+
+The second they were alone, her perfect posture vanished.
+
+"Kokooo..." Mirandine whispered, clutching his sleeve in pure distress. "You can't let me go alone."
+
+Korelius sighed, leaning against the doorframe. "It's not my invitation, Mirandine."
+
+"Koko."
+
+"I don't even know anyone there."
+
+"Koko, please."
+
+Korelius groaned, rubbing his temples. "Okay, fine. I'll come, geez."
+
+"Koko, you are the absolute best brother anyone could ask for," she practically sobbed in relief.
+
+"You are a total stranger to me right now," Korelius muttered.
+
+"Alright, Mirandine!" Elara yelled from across the room. "Time for your crash course on playing hard to get! Get back over here!"
+
+Mirandine flinched and was immediately dragged away by the combat prodigy.
+
+Korelius stood alone by the door. He finished the last sip of his stolen pop and crushed the can. "What am I even going to do there if she's busy the whole time?"
+
+He pulled out his phone to ask Dantez to tag along. There was already a text from the genius, sent that morning.
+
+I already heard about the event tonight. Before you ask, I'm not going. I don't need THAT in my life.
+
+Korelius lowered his phone. "I should probably check my messages more often."
+
+He looked back into the sprawling dressing room. Sofia was sitting elegantly on a velvet sofa. She wasn't participating in the makeup chaos anymore, just resting with perfect, intimidating posture.
+
+Korelius scratched his head. "Well..."
+
+He casually strolled over to her. Sofia tilted her head, her green eyes looking up at him. "Hi, Korelius."
+
+"Hello, Sofia," Korelius said easily. "Would you like to go to the event tonight with me?"
+
+A dead, heavy silence dropped over the room.
+
+Sofia completely froze. Her perfectly manicured hands stopped moving.
+
+Across the room, Helda gasped softly. "Oh, my."
+
+Korelius blinked. He looked at Sofia’s frozen face, then at the staring women. He cleared his throat, realizing his mistake. He was standing in a gilded room full of aristocrats. He needed to try a little harder.
+
+He adjusted his stance, reached down, and gently took Sofia’s hand. He bowed slightly, looking right into her eyes.
+
+"Lady Sofia Ofgreen," Korelius said smoothly. "Would you do me the honor of being my partner for this event?"
+
+He pressed a gentle kiss to the back of her hand.
+
+The seconds that followed were catastrophic.
+
+Sofia’s face exploded into a boiling, violent shade of red. Actual, literal steam seemed to rise from her collar. Her fiery composure completely short-circuited.
+
+"W-w-w-what! Wait! Korelius???" Sofia stammered, scrambling back into the sofa cushions.
+
+"Eh?" Korelius exclaimed, dropping her hand in confusion.
+
+Elara fiercely nudged Mirandine with her elbow. "You have one hell of a brother!"
+
+"D-Do you even know what kind of event this is?!" Sofia asked, her voice cracking two octaves higher than normal.
+
+Korelius tilted his head. "Yes?"
+
+"A-a-are you sure?" Sofia squeaked, hiding the lower half of her burning face behind her golden hair. "W-with me?"
+
+Korelius gave her a gentle, genuine smile. "I'd love to!"
+
+Sofia stared at him. She looked at his taller frame, his sharp, handsome features, and that relentlessly easygoing smile.
+
+"Korelius..." she whispered shyly.
+
+"Would you not want to?" he asked.
+
+"I mean..." Sofia looked away, aggressively twisting a lock of hair around her finger. "I guess we can try."
+
+Korelius's smile returned. He reached out, gently placing his other hand on top of hers. "Well, it's decided then."
+
+He stood up, turning toward the door. "I'll see you later! I have to go figure out what to wear!"
+
+He strolled out of the room, completely unbothered.
+
+The second the door clicked shut, the dressing room fell dead silent.
+
+Helda slowly turned to the Guild assassin. "Mirandine, baby... exactly how many formal events has your brother been to?"
+
+"I don't think a single one," Mirandine said blankly.
+
+Sofia buried her entire burning face in her hands, letting out a muffled groan.
+
+Elara crossed her arms, a wicked grin spreading across her face. "You know, Sofia, you could have told him."
+
+Sofia didn't say a word. She just curled tighter into a ball.
+
+And then, it clicked.
+
+Helda and Elara looked at each other, their eyes widening at the exact same time.
+
+"Sofia," Elara gasped, leaning forward. "Do you perhaps—?"
+
+"AHHHHH!"
+
+Sofia screamed at the top of her lungs, leaped off the sofa, and physically ran out of the room, slamming the door behind her.
+
+Helda clutched her cheeks, melting into a puddle of absolute joy. "Awe... my baby."
+        </article>
+
+        <article data-title="Chapter 16: Pink Haired F">
+Korelius stood near a lavish crystal fountain, completely out of his element.
+
+He took a slow sip of his champagne. He was used to loud, punk, high-energy parties where people actually had fun. This event was entirely different. The music was a soft classical hum, the laughter was controlled and generic, and everyone stood with rigid, exhausting posture.
+
+He checked his phone. Still no messages. He sighed, leaning casually against a high table, fully aware of how violently his pink hair clashed with the room's pristine aesthetic.
+
+A low, magically amplified voice suddenly echoed through the grand hall, hushing the crowd.
+
+"Ladies and Gentlemen, thank you all for attending tonight's Guild gala. Presenting your hosts: Elder Bertalon Ofgreen, accompanied by Lady Helda Ofgreen."
+
+The massive double doors at the top of the grand staircase opened.
+
+Bertalon’s terrifying, suffocating presence immediately washed over the room, but it was perfectly balanced by the sweet, gentle smile of Helda holding his arm. They walked down the steps to soft, incredibly posh applause.
+
+"Now presenting Lady Elara Ofgreen Aride, and her husband, Velan Aride."
+
+Elara stepped out, looking stunning in a sharp, structured dress that did absolutely nothing to hide her incredibly muscular, combat-honed physique. Beside the towering fighter stood Velan, a surprisingly thin, proper, and well-mannered man who looked completely unbothered by his wife's terrifying reputation. The crowd cheered respectfully.
+
+"Presenting the Head of the Household, Lord Xander Ofgreen."
+
+Xander strolled down the stairs looking completely bored. He descended with the casual arrogance of a star athlete who did this every weekend. Several women in the crowd legitimately squealed, violently fanning their flustered faces.
+
+"Presenting Sir Silas Ofgreen."
+
+Silas walked out, wearing a sharply tailored suit. He paused halfway down the stairs and casually ran a hand through his notorious golden hair. The hair flip was so devastatingly arrogant that two women near the front actually swooned and had to be caught by their dates.
+
+"Crazy," Korelius muttered into his champagne glass.
+
+"Last, and absolutely not least, Lady Sofia Ofgreen."
+
+The entire room went dead silent.
+
+Sofia stepped into the light. She looked like fine wine. Her dress was flawless, her makeup perfectly highlighted her piercing green eyes, and her fiery composure radiated pure royalty. She put exactly one hundred percent of her effort into this look, and it showed. The crowd broke into hushed, awestruck gossip.
+
+Korelius noticed several wealthy men at the bottom of the stairs adjusting their ties, standing taller, preparing for her to come down.
+
+But she didn't.
+
+Sofia stopped dead at the top step. She stood perfectly still, looking out over the sea of people.
+
+A wealthy aristocrat standing right next to Korelius dropped his jaw. "No way."
+
+Korelius blinked, looking at the man. "What?"
+
+"It doesn't seem like she is going to walk down the stairs," the man whispered frantically.
+
+"And so?" Korelius asked.
+
+The man looked at Korelius like he was an idiot. "What do you mean, 'and so' ? Do you know how many men in this room would literally die for her hand? Her refusing to walk down the stairs unescorted can only mean one thing."
+
+At the top of the stairs, Sofia slowly and elegantly raised her hand, waiting.
+
+"I can't believe this," the aristocrat muttered, running his hands over his face in despair. "Which man has managed to claim her? What an absolute monster!"
+
+Down in the crowd, something astronomical clicked inside Korelius's brain.
+
+The scene from the dressing room rapidly replayed in his mind. The formal bow. Kissing her hand. Asking her to be his partner. Sofia violently exploding into a blushing, steaming mess.
+
+Oh, Korelius thought. OH!.
+
+There was no going back now.
+
+Korelius set his champagne glass down. His adrenaline pumping had his body coiled like a spring.
+
+With a terrifying, explosive burst of impulse speed, Korelius moved.
+
+He didn't shove anyone. He carefully, flawlessly, and impossibly weaved through the dense crowd, moving faster than an average human ever should. He hit the bottom of the stairs and practically glided to the top.
+
+Every single step he took sent a wave of fresh anxiety and agony through the wealthy men watching below.
+
+Korelius came to a smooth halt right in front of the fiery Lady Ofgreen.
+
+Sofia’s eyes widened, and a gorgeous, genuine blush dusted her cheeks as she looked up at his taller, muscular frame and pink hair.
+
+"Hello, Sofia," Korelius said easily, his sharp teeth flashing in a gentle smile.
+
+He reached out, took her raised hand, and calmly helped her take her first step down the stairs.
+
+Total chaos erupted in the ballroom.
+
+"What?!" a man shouted from the back of the hall. "Who the fuck is this pink-haired fuck?!" Another Yelled.
+
+Like a dam breaking, every single unmarried man in the room created a massive commotion of insults, despair, and sheer disbelief.
+
+Amidst the furious noise of high-society meltdowns, the announcer's magically amplified, painfully calm voice echoed one last time.
+
+"Thank you, and please have a Great Evening."
+        </article>
+
+        <article data-title="Chapter 17: Exactly, Bubblegum!">
+A bit later that night, the crowd's initial outrage had simmered down into aggressive, hushed whispers.
+
+Korelius and Sofia found a quiet spot near a towering ice sculpture. They could still feel dozens of furious eyes glued to them. Especially onto Korelius.
+
+"Sorry," Korelius muttered, handing her a fresh glass of champagne. "I didn't know I had to—"
+
+Sofia stopped him with a smile. It was a genuine, glowing smile that hadn't faded since he took her hand at the top of the stairs.
+
+"It's okay," she said, her fiery green eyes sparkling with amusement. "I actually really enjoyed watching the chaos that erupted."
+
+They both laughed as another wealthy aristocrat aggressively glared at Korelius from across the room.
+
+"Thanks for not leaving me embarrassed up there, though," Sofia said softly, giving him a quick, playful wink. "I'm glad you caught on quick."
+
+Korelius stared at her. He realized with sudden horror that he had definitely just passed some kind of massive, unspoken high-society test.
+
+"I could never," he replied smoothly, desperately trying to keep his cool. He took a sip of his drink. "So, what truly is going on tonight?"
+
+"These events happen often with wealthy Guild families," Sofia explained, leaning gracefully against the table. "It's called a 'Great Evening'. It's basically a way for powerful families to gather and match their sons and daughters to secure political alliances."
+
+Korelius nodded slowly, piecing it together. "I see. So married people come down the stairs with their partners, while singles come down alone?"
+
+"Exactly, Bubblegum!"
+
+Korelius choked on his drink. "Bubblegum?"
+
+He laughed, running a hand through his natural pink hair, but then the gravity of the rules finally crashed down on him. "Wait. If everyone knows the rules... and it's that public... then coming down the stairs with me means—"
+
+Sofia looked down, a violent, beautiful blush returning to her cheeks.
+
+Before Korelius could fully process the fact that he was now officially courting a high-ranking noblewoman, the grand entrance doors swung open.
+
+The entire ballroom went completely silent.
+
+Mirandine Delees walked in.
+
+She was, without a shadow of a doubt, the most breathtakingly beautiful woman in the room. Thanks to Elara's strict posture training and Sofia's flawless styling, she radiated an aura of absolute, untouchable perfection. Every woman in the room gasped. Every single man, married or not, stared in pure awe.
+
+Up in the balcony, Elara leaned over to her thin husband, Velan, with a deeply arrogant smirk. "Here comes the perfect woman."
+
+Mirandine walked gracefully down the steps. Waiting for her at the bottom was Xander Ofgreen.
+
+The cold, pragmatic Head of the Household, a man utterly consumed by his work, looked up at her. For the first time in a decade, Xander Ofgreen was noticeably blushing.
+
+He offered his hand. Mirandine gave him a terrifyingly pleasant smile and gently took it.
+
+A second, massive uproar of gossip exploded through the ballroom. Near the back of the hall, Bertalon grinned wildly. The old man's matchmaking plan was working flawlessly.
+
+But then, the grinning stopped.
+
+A wealthy, heavily-built man stepped out of the crowd. He marched right up to Xander and Mirandine and dropped heavily to one knee.
+
+"I, Sir Avlar, eldest son of the House of Barmin," the man declared, his voice magically amplified to boom across the hall. "Cannot accept this union! As I have eyes on this beauty, I formally request a duel!"
+
+The drama in the room skyrocketed. Gasps and shrieks echoed off the crystal chandeliers.
+
+Beside Korelius, Sofia took a casual sip of her champagne. "Oh. I forgot this happen."
+
+Before Xander could dismiss the man, another aristocrat pushed his way forward, dropping to his knee.
+
+"I, Sir Camor, eldest son of the House of Gheurt," he yelled. "Cannot accept this union as well! I formally request a duel!"
+
+Then came a third. And a fourth.
+
+While the absolute circus unfolded around the Head of the Household, a frantic set of footsteps approached Korelius.
+
+Dantez Ofgreen slid to a halt. He was wearing a half-arranged suit, his tie hung loosely around his neck, and his hair was an absolute bird's nest. He grabbed Korelius by the shoulders and violently spun him around.
+
+"Oh, Dantez," Korelius blinked. "I thought you weren't coming."
+
+"That is not the matter!" Dantez practically vibrated with sleep-deprived excitement. "I GOT SOMETHING! I finally figured out the—"
+
+Dantez stopped mid-sentence. He turned his head toward the center of the ballroom.
+
+Six separate men were currently kneeling in a circle around Mirandine, aggressively demanding the right to fight for her hand.
+
+Dantez released Korelius's shoulders. "What the fuck is going on?"
+
+"It seems like our big brother is going to have to fight half the room for Mirandine," Sofia noted elegantly.
+
+Korelius chuckled. The idea of these stuffy, proper rich men throwing down over his terrifying sister was pure comedy. Xander was going to have a miserable night.
+
+"Excuse me."
+
+A tall, sharp-looking young man suddenly stepped out of the crowd. He completely ignored the commotion around Mirandine. Instead, he marched straight up to Korelius and Sofia.
+
+He dropped to one knee, glaring daggers at the aggressively average boy with the pink hair.
+
+"I, Sir Finn, only son of the House of Vandlem," the young man declared loudly. "Cannot accept this union. I formally request a duel!"
+
+Sofia’s face instantly buried itself in her hands. "Oh, no. Finn."
+
+Beside her, Dantez’s hollow green eyes lit up. A massive, chaotic grin spread from ear to ear.
+
+"Oh, yes!" Dantez cheered loudly. "FINN!"
+
+Korelius stood frozen. The champagne glass in his hand suddenly felt very heavy. The comedic realization completely vanished, replaced by the sheer anxiety that something might slip out of his hands.
+        </article>
+
+        <article data-title="Chapter 18: My Beauty">
+Korelius stared at Finn. The sharp-looking noble was kneeling on the polished floor, demanding the right to fight him for Sofia's hand.
+
+At first, Korelius’s instinct was to completely ignore him. He didn’t care about high-society politics or formal challenges. But after a split second of reflection, he looked over at Sofia. Her face was buried in her hands, absolutely mortified by Finn causing a scene.
+
+If I don't accept this duel, Korelius thought, wouldn't she look at me in shame? I can't just leave her standing here like a coward.
+
+Beside him, Dantez leaned in, practically vibrating with excitement. "Accept it," the genius whispered furiously.
+
+"Finn, please," Sofia finally pleaded, lowering her hands. "We talked about this—"
+
+"I accept," Korelius said firmly.
+
+Sofia’s green eyes snapped to him in shock. "Korelius! No, you don't have to—"
+
+She was instantly interrupted by a booming, commanding voice from the center of the room.
+
+"I, Xander, Lord of the Ofgreens," Xander declared loudly, effectively shutting down the six men kneeling around Mirandine. "Accept the challenge of any beast who may want this beauty alongside me."
+
+Korelius, desperate to sound like he belonged in this world, instantly decided to copy the Head of the Household word for word. He puffed out his chest and raised his chin.
+
+"I, Xan—I mean, Korelius Delees!" Korelius yelled. "Accept the challenge of any beast who may want my beauty!"
+
+The room went entirely silent.
+
+Sofia turned bright red. "Your beauty?"
+
+Korelius flinched, realizing he fumbled the script. "I mean... the beauty alongside me. Her. I meant her."
+
+Dantez immediately stepped in, aggressively clapping his hands together before anyone could retract the challenge. "Great! It is formally accepted! We shall see you first thing tomorrow morning, Finn. We’ll make sure to properly prepare the duel formalities between you and Korelius."
+
+Before Finn could say another word, Dantez grabbed Korelius by the sleeve and physically dragged him out of the grand hall.
+
+They practically sprinted back to the guest wing. As soon as the heavy door to Korelius's room clicked shut, Dantez threw his hands in the air.
+
+"THIS is the BEST opportunity to see your evolving body in action, Korelius!" Dantez cheered, immediately rushing over to a desk completely covered in ancient books.
+
+Korelius slumped heavily onto the edge of his bed, rubbing his face. "I don't know, man. Should I have just left it alone? Was that a mistake?"
+
+"Oh, with Finn?" Dantez waved a dismissive hand. "Don't worry about him. He's just Sofia and Gideon's annoying childhood best friend. He’s been trying to impress her for a decade."
+
+"I see... A real duel. My very first one."
+
+"YEP!" Dantez grinned, his eyes wide and hollow. "Isn't that exciting?"
+
+"I don't know, Dantez. I've always been just an average guy. Do I even have a chance against Finn? He seemed really fit and noble, and he probably has actual combat training."
+
+"An 'average guy,' my ass," Dantez scoffed, leaning against the desk. "Did you look in the mirror today? Nothing about you is average anymore."
+
+"I still have to fight him, Dantez. I have to win."
+
+Dantez paused, tilting his head. "Oh, you're actually thinking about winning this?"
+
+"I mean... yeah," Korelius said, looking down at his hands.
+
+Dantez sat down in a plush armchair, grabbing a crumbling text. He took a long, calculating look at the pink-haired boy sitting on the bed.
+
+"Hey, dude," Dantez asked casually. "Do you like my sister?"
+
+The question completely caught Korelius off guard. "Oh. I mean. I don't know? She's really cool, and nice, and, you know, like... fiery, but in a good way."
+
+Dantez didn't say anything. He was probably thinking about how he viewed his sister the absolute opposite way—as a terrifying, strict disciplinarian. But he let the silence pass.
+
+"I think she really does care about you," Dantez finally said.
+
+"Really?" Korelius looked up. "What makes you say that?"
+
+"To make it simple," Dantez explained, tapping the cover of his book. "Some people's Essence has a natural 'specialty.' A unique mutation. We call it a Cado. Sofia was born with one. If she concentrates enough, she is actually able to see the shape, form, and full manifestation of a person's soul."
+
+Korelius's jaw dropped. "No way."
+
+"Yeah. And not just that," Dantez continued. "Because she can see the soul, she is able to inherently sense when someone's intentions are pure or entirely selfish. Have you noticed how she only really drops her guard around Mother, you, and I?"
+
+"Yeah, actually."
+
+"Her Cado is what really helped her write her books on Eco fundamentals," Dantez said softly. "But in high society? It’s a curse. Every noble who talks to her just wants her status. She is constantly surrounded by fake smiles and selfish ambition. She probably only senses good, genuine intentions in you. Which is also good for me to know."
+
+Korelius sat completely still. He twiddled his thumbs, staring at the floor.
+
+He realized just how much more there was to this world—and this family—that he didn't know. The heavy, stressful burden Sofia carried suddenly made perfect sense.
+
+This new information sparked something entirely foreign inside Korelius's chest. It wasn't just the alien Eco humming. It was a genuine, burning desire to learn. A need to get better, not just to survive, but to actually protect the people around him.
+
+Korelius looked up, his amber eyes sharp and focused. "Dantez. What did you figure out today?"
+
+Dantez smiled. It wasn't his usual arrogant smirk, but the genuine smile of a scholar who had finally cracked a code.
+
+"I'm glad you asked," Dantez said, opening the ancient book. "Korelius, after cross-referencing the texts on old Essence loss... it seems my Essence isn't completely gone."
+
+Dantez leaned forward, his hollow green eyes locking onto Korelius.
+
+"It's simply constantly leaking."
+        </article>
+
+        <article data-title="Chapter 19: The Win Condition">
+Korelius sat up a little straighter on the bed. "Alright. I'm listening."
+
+Dantez practically threw the ancient book onto the desk, his hands moving frantically as he pointed to the faded text.
+
+"I decided to look up the oldest recorded texts on Essence Loss," Dantez explained, his hollow eyes wide with manic energy. "I tried to draw a conclusion, but I really couldn't find any common ground. Not until I looked at our specific case. Well, my case."
+
+He flipped a page violently. "Look at this. Cooper Lang of... whatever. Huge Master Essence dude. He was the first guy recorded to have experienced Essence Loss after the sudden death of his brother. He became a complete vegetable instantly. Then there’s Ryan... somebody. Lost his wife, suffered Essence Loss, became a vegetable."
+
+"Okay, yeah..." Korelius nodded slowly.
+
+"Yeah, but those ones followed a death!" Dantez countered, pacing the room. "Then you get guys like Billy Bones. He experienced Essence Loss right at the edge of a massive scientific breakthrough. Boom. Vegetable."
+
+Korelius paused. "Oh, what?"
+
+"I know, right?!"
+
+"Wait, why is Billy Bones the only full name you actually remember?" Korelius asked, squinting at him.
+
+"Because I love his books, Korelius, keep up!" Dantez waved him off impatiently. "Anyway. Then there was Sidney... something. Experienced Essence Loss while running a marathon. Vegetable. Even Eliony Vivianne suffered it!"
+
+"Oh, the host of ViveEvo?" Korelius asked, surprised.
+
+"Yeah! Essence Loss right on the final episode of her late-night show. Vegetable! And there are so many more!"
+
+"Oh, Lord." Korelius rubbed his temples, trying to process the sheer amount of catatonic history.
+
+"Now," Dantez held up a finger, lowering his voice. "There has been one single case where the vegetable part was actually rectified. Lienne B-B-Barnacl—"
+
+"Lienne Smith," Korelius corrected automatically, having heard the famous name in school.
+
+"Lienne Smith!" Dantez snapped his fingers. "After years and years of intense medication and physical rehab, she was able to function and walk again. But the Essence Loss was still permanent. She stayed hollow."
+
+"Oh. This is... complicated," Korelius muttered.
+
+"Yes, it is!" Dantez grinned, leaning over the desk. "Until you take into consideration you and I."
+
+"Okay. I'm listening."
+
+"The only thing I think all of those historical figures had in common was something like a dream. A goal. A partner. A life. Something entirely bigger than themselves," Dantez explained, his genius mind finally putting the puzzle pieces together. "They poured their entire soul into it, and they failed. They failed at it."
+
+"Oh, yeah," Korelius breathed out. "That tracks."
+
+"And remember what your sister said today?" Dantez asked, his voice rising with excitement. "Aura is all about mental fortitude. It relies on the user's mind acting as an anchor. That insinuates that Eco itself is directly susceptible to a person's absolute will. Meaning it has to be the exact same for Essence!"
+
+"That also tracks, damn," Korelius agreed, his amber eyes wide. "But what does that mean about us? We didn't even know each other before the valley."
+
+"Nope," Dantez smiled.
+
+"And so?"
+
+Dantez stopped pacing. He stood right in front of Korelius. The hollow, dead look in his green eyes was completely gone, replaced by a terrifyingly sharp, brilliant spark.
+
+"When the shockwave hit," Dantez said quietly, "I put my entire life on the line to save your ass. And I won."
+
+Korelius sat perfectly still. He stared at the genius.
+
+The realization hit him like a freight train. Every other person in history who lost their Essence had failed their ultimate goal, causing their willpower to shatter and their Eco to destroy their bodies. But Dantez hadn't failed. He successfully saved Korelius. The will held firm.
+
+"Oh," Korelius whispered. "Ohhhhhhh."
+
+A slow, wicked grin spread across Dantez’s face. He started to laugh. It wasn't a normal laugh; it was a slow, deep, borderline evil chuckle.
+
+Korelius looked at him, feeling the massive, triumphant Eco humming warmly inside his chest. A massive grin broke out on his own face. He started laughing too.
+
+Soon, the two of them were completely cracking up in the bedroom, evil laughing together like absolute supervillains. They both knew exactly what this meant. This moment right here was their true first step into discovering something massive. Something that was going to completely break the rules of their world.
+        </article>
+
+        <article data-title="Chapter 20: Dishes?">
+The next morning, the official duels began.
+
+Following ancient Guild traditions, the event was moved to a massive, open-air stone arena on the outskirts of the estate. Usually, the morning after a Great Evening event only drew a small, polite crowd of relatives.
+
+This time was different.
+
+Because so many major houses had issued challenges—including multiple for the Head of the Ofgreen Household—the arena was absolutely packed. High society elites sat in the shaded boxes, while lower-class Guild workers packed the bleachers. For some, it was a matter of honor. For others, a massive gambling ring.
+
+Down in the competitor's waiting room, Korelius stared blankly at a wall-mounted broadcast screen.
+
+"Ladies and Gentlemen," the magically amplified voice from the night before echoed through the stone halls. "Thank you for attending the Great Evening Dishes."
+
+Korelius blinked. "'Dishes'?"
+
+The heavy door to the waiting room swung open. Dantez strolled in, practically buzzing with energy. Right beside him was his meticulous, image-obsessed older brother, Gideon.
+
+"Okay, it's about to start, Korelius!" Dantez cheered, clapping his hands together. "I'm so excited!"
+
+"You seem a lot more excited than I am," Korelius muttered, nervously adjusting his sleeves. He noticed the older brother. "Good morning, Gideon."
+
+Gideon scoffed, meticulously adjusting his cuffs. He looked at Korelius like he was a stain on the floorboards.
+
+"Heh... Hi," Gideon said dryly. "I still cannot fathom that you are actually competing for... my sister."
+
+Korelius didn't say anything.
+
+Gideon looked across the sprawling waiting room. Sitting in a quiet corner was Finn, surrounded by his wealthy family. An older noble was currently lecturing Finn about how ridiculous this whole situation was.
+
+"Ah, there he is," Gideon said, pointing a perfectly manicured finger. "I am here to support that guy, you see? Anyway, Godspeed, Korelius. You will desperately need it."
+
+Gideon turned on his heel and left the room.
+
+"Don't mind him," Dantez said, pulling Korelius toward a bench. "Let's focus on your Dish. I'm assuming you're completely unprepared."
+
+"Since the exact moment I died in that valley, yeah," Korelius sighed.
+
+"Keep your voice down about that," Dantez hissed, checking over his shoulder before turning back. "Okay, listen. Information is your best friend. Finn knows absolutely nothing about you. But I can tell you what I know about him."
+
+"Nice. Let's hear it."
+
+Dantez paused, a sudden look of sheer panic crossing his face. "Wait. Speaking of that... I don't even know anything about your combat style either."
+
+"Just move on with the intel, Dantez."
+
+"Right, okay. Yes," Dantez shook his head, shifting into his analytical mode. "Finn is part of the Vandlem family. They are a hybrid house. They are pure Essence users, but they experiment heavily with Aura theory."
+
+Korelius frowned. "What does that mean?"
+
+"It means his fighting style is highly deceptive," Dantez explained rapidly. "He is an extremely high-mobility Essence user. The Vandlems dominate their battles by mimicking Aura footwork. They make you think you are dealing with a ranged Aura user, and the exact second you drop your guard, they destroy you with close-combat Essence strikes."
+
+"Oh," Korelius swallowed hard. "That's..."
+
+"Tricky."
+
+"Tricky, yeah."
+
+"Yeah, yeah. Very tricky," Dantez nodded slowly.
+
+A heavy, incredibly awkward ten seconds of silence passed between them.
+
+Dantez stared at the pink-haired boy. "Okay, but seriously. What the fuck do you actually do?"
+
+Before Korelius could answer, the roar of the arena crowd shook the ceiling.
+
+On the broadcast screen, seven men stood side-by-side in the dirt. Seven massive names in high society, but the most important were Ofgreen, Barmin, and Gheurt. Three incredibly influential houses, all fighting over Mirandine.
+
+"Ladies and Gentlemen," the announcer boomed. "The tournament for Lady Delees will go as follows! Three versus Three! The last standing winner of each team will then face each other, alongside Lord Ofgreen, making it a final Truel! By law, the losers may never approach the Lady without permission again!"
+
+Korelius stared at the screen. Xander looked completely unbothered in the center of the arena.
+
+"Why couldn't Xander just say no?" Korelius asked.
+
+"I mean, he could have," Dantez shrugged, leaning against the wall. "But as a Lord, and a highly respected fighter, backing down from a formal challenge is seen as deeply dishonorable."
+
+"Strange."
+
+"Eh, it's just old-fashioned tradition," Dantez said casually, his inner history nerd coming out. "Centuries ago, Eco was completely different. The feel, the smell, the raw output. Over time, families figured out that certain 'Old Eco' traits could actually be passed down through genetics, preserving ancient magic."
+
+On the screen, the camera cut to the high balcony. Mirandine stood at the edge, looking down at the fighters.
+
+"Some families focused exclusively on retaining certain magics," Dantez continued, gesturing vaguely. "It made 'choosing the right partner' the biggest political deal in the world. Unmarried men weren't even considered part of high society until they proved their genetic worth in the dirt."
+
+Mirandine gracefully lifted a white silk handkerchief into the air. The crowd began to scream in anticipation.
+
+"They would fight with absolutely everything they had to prove to a woman why they should be chosen," Dantez said, watching the screen. "Out of all the ancient rules, this specific tradition stuck hard."
+
+Dantez turned his head away from the broadcast. He looked at Korelius.
+
+"I mean, have you never wondered why my entire bloodline has golden hair and green eyes?" Dantez asked.
+
+Korelius looked at him. Despite Dantez's Eco constantly leaking out, his eyes were still a striking, piercing shade of emerald green. In the dim light of the waiting room, they almost seemed to glow with ancient history.
+
+"Crazy, isn't it?" Dantez smirked.
+
+They both turned their attention back to the TV just in time to see Mirandine release the silk cloth. It fluttered down toward the dirt.
+
+The battle had begun.
+        </article>
+
+        <article data-title="Chapter 21: Time Limit Reached!">
+Down in the competitor's waiting room, Korelius and Dantez watched the broadcast screen as the preliminary matches flew by.
+
+In the first match, Camor Gheurt stepped into the dirt. He didn't even draw a stance. He just unhooked a massive, slab-like iron sword from his back and planted it into the ground. He used it as an impenetrable shield, letting his opponents exhaust themselves against the metal before knocking them out with a single, blunt swing.
+
+"That is a massive ass sword," Korelius said, leaning forward on the bench.
+
+"The Gheurts are all known to be big sword monsters," Dantez replied, his green eyes tracking the minimal movement.
+
+In the second match, Avlar Barmin took the field. He was armed with a sleek, standard longsword. He barely moved from the center of the ring. Instead of attacking, he created subtle, invisible shifts in the air, perfectly redirecting his opponents' strikes so they ended up accidentally hitting each other. He won without breaking a sweat.
+
+"Crazy," Korelius muttered.
+
+"What?" Dantez asked.
+
+"The two of them aren’t even tired at all."
+
+"Yeah," Dantez nodded slowly. "I think they know that if they go too hard in the preliminaries, they’ll instantly lose against Xander in the finals. Very smart of them. I feel like we’ll be seeing absolute insanity soon."
+
+High above the arena, in the shaded VIP balcony, the absolute insanity was already happening.
+
+Bertalon Ofgreen gripped the edge of the velvet railing. The terrifying patriarch glared at the two wealthy men sitting in his private booth.
+
+"I entirely despise the two of you interfering with my family's affairs," Bertalon growled, his gravelly voice dripping with venom.
+
+Lord Vargar Gheurt, a massive, scarred man who looked like an older, meaner version of Camor, barked out a laugh.
+
+"Shut up, retired old man," Vargar sneered, swirling a glass of heavy liquor. "As fellow Aura users, my son and I could instantly feel how terrifyingly dense that woman’s internal vortex is, despite her concealing it so well. Do you think I'd ever pass up a genetic opportunity like that? Never."
+
+"This woman was on a date with my grandson!" Bertalon slammed a heavy fist on the railing.
+
+"Her beauty and combat potential are perfect for my lineage," Vargar retorted stubbornly.
+
+"Stop your absolute nonsense, you overgrown runt," Bertalon snapped. "Why don’t you retire already?"
+
+Before Vargar could draw his weapon, a third, incredibly frail-looking man chuckled softly from an armchair. It was Lord Thaddeus Barmin.
+
+"Gentlemen, please," Thaddeus said, his voice quiet but commanding. "This has all been done fair and square. Everyone is operating within their legal rights."
+
+"Don't even begin, Thaddeus," Bertalon and Vargar snapped in perfect unison. "You're the oldest one here."
+
+Thaddeus simply smiled, adjusting his expensive cloak. "My grandson, Avlar, is next in line for my son’s seat. He would absolutely benefit from having a highly competent woman by his side to manage the estate. She is wasted on a workaholic like Xander."
+
+They were cut off by the deafening roar of the crowd.
+
+Down in the dirt, the third match was beginning.
+
+Xander, Camor, and Avlar stood in a wide triangle. The referee dropped his hand, and the arena exploded.
+
+Avlar moved first. He didn't run. He manipulated the atmospheric pressure around his boots, creating condensed pockets of solid wind. He violently pushed off the invisible platforms, launching himself through the air in rigid, unpredictable zig-zags.
+
+He swung his blade at Xander, creating a localized vacuum that attempted to violently pull Xander off balance.
+
+Xander didn't flinch. The Head of the Ofgreen Household raised two fingers.
+
+A blinding flash of golden light erupted from his hand. It wasn't just a beam; it was solid geometry. A razor-sharp prism of hard-light manifested in the air, perfectly intercepting Avlar's blade. The light refracted, sending a searing, hot beam straight back at Avlar’s chest.
+
+Avlar twisted mid-air, using a high-pressure burst to dodge, but the beam kept going. It sailed directly toward Camor.
+
+Camor Gheurt didn't dodge.
+
+He roared, his mind fully anchoring into a terrifying Aura state. He channeled the limitless environmental Eco directly into the flat of his massive iron sword, turning the metal into a highly pressurized, repulsive wall.
+
+The Ofgreen light Essence slammed into the sword. Because Aura and Essence violently reject each other on contact, the sword acted like a magical trampoline.
+
+With a deafening CRACK, Camor literally batted the light beam away. The redirected hard-light slammed into the arena wall, shattering the stone seating.
+
+"Incredible," Dantez whispered in the waiting room, his eyes wide.
+
+Xander adjusted his tie, his pragmatic face entirely cold. He pressed both hands together.
+
+Dozens of hard-light mirrors suddenly materialized in a dome around the arena. Xander fired a single, blinding needle of pure Essence. It hit a mirror, split into three, hit the others, and suddenly the entire arena was a chaotic, inescapable grid of burning, ricocheting lasers.
+
+Avlar danced through the grid, creating tiny wind vacuums to constantly alter the trajectory of the lasers before they could scorch him.
+
+Camor planted his feet, swinging his massive Aura-coated sword like a bat, violently deflecting the light beams back at Xander with explosive force.
+
+Xander casually sidestepped the deflected beams, maintaining the mathematical perfection of his light constructs.
+
+For ten solid minutes, the arena was an absolute warzone of pure, high-level mastery. None of them made a single mistake. None of them broke their focus. The sheer, overwhelming pressure of their clashing magic began to physically crack the foundation of the stadium.
+
+A loud, magical bell echoed through the dust.
+
+The referee stepped onto the high wall, his voice amplified. "Time limit reached! Due to structural failure of the grounds, this match is declared an absolute draw!"
+
+The three men stopped. They lowered their weapons, all of them breathing heavily, covered in dirt, but standing perfectly tall.
+        </article>
+
+        <article data-title="Chapter 22: Stand.">
+The dust settled in the ruined arena. The crowd went entirely silent, completely ignoring the three exhausted men in the dirt. Every single eye tilted upward toward the VIP balcony.
+
+They were waiting for Mirandine's move.
+
+"I'm glad they stopped it here," Dantez muttered, watching the broadcast screen in the waiting room.
+
+"Why?" Korelius asked, nervously chewing his lip.
+
+"With so much highly condensed Eco bouncing around in one place, it could have easily shattered the foundational wards and killed half the audience," Dantez explained. "These men are absolute monsters."
+
+"Yeah, I see," Korelius swallowed hard. "What happens now?"
+
+"Well, centuries ago, the rules stated they would have to fight until only one man was left breathing," Dantez said, leaning against the wall. "But fortunately, the women actually get a final say now. They can decide who they want to escort them, even the losers. Let's see what your sister does."
+
+Korelius stared at the screen, his heart hammering against his ribs. This single decision could change their entire lives forever.
+
+The silence stretched on. The longer Mirandine took, the more suffocating the tension in the stadium became. The wealthy elites sat on the absolute edge of their seats, waiting for the perfect woman to make her decree.
+
+Instead of speaking, Mirandine simply took a step back. She completely disappeared into the heavy shadows of the VIP box.
+
+The stadium erupted into an absolute uproar.
+
+By refusing to choose any of them and vanishing, she was essentially declaring to the entire Guild society that even the Head of the Ofgreen Household wasnt enough to satisfy her standards. Without even saying a word, her status instantly skyrocketed to that of an untouchable Elite.
+
+Of course, what the audience saw and what truly happened were two completely different things.
+
+Up in the private, soundproofed room behind the balcony, absolute chaos was unfolding.
+
+Mirandine Delees was flat on the expensive carpet. The sheer, suffocating pressure of having three incredibly powerful, terrifying men fighting to the death for her hand had completely broken her civilian mask. She had a full panic attack and fainted backward.
+
+Sofia, who had been standing right behind her, dropped to her knees in pure panic. "Oh my goodness, Mira!"
+
+The heavy door flew open. Elara rushed into the room, quickly grabbing a crystal pitcher. She carefully administered a glass of water to the gasping, terrified Guild assassin.
+
+Elara assessed the hyperventilating woman on the floor. The combat prodigy crossed her arms, an intense, analytical look crossing her face.
+
+"It seems you may need more training," Elara noted seriously.
+
+Down in the competitor's room, Korelius stared at the screen. "Wha—what does that mean? Why did she just leave?"
+
+"Eh, whatever," Dantez shrugged, already bored by the political drama. "She probably just wanted to make them sweat."
+
+A sharp scrape of chair legs echoed across the room. Finn stood up.
+
+The sharp-looking noble gripped his sword tightly. He glared absolute daggers at Korelius before turning and marching out of the waiting room with his wealthy family in tow.
+
+Dantez threw an arm around Korelius's shoulder. "Okay. Your turn, buddy."
+
+"Yeah..." Korelius breathed out.
+
+A few minutes later, an arena attendant handed Korelius a set of standard, lightweight leather armor to strap over his clothes.
+
+"Weapon of choice?" Dantez asked, hovering over a rack of training gear. "Dude, unless you plan to go straight hands against a Vandlem prodigy, please tell me you dabbled around with something in school."
+
+Korelius stared at the massive rack of longswords, halberds, and Aura bows. He had absolutely zero real combat experience outside of desperately dodging his sister's broomstick in the backyard.
+
+He reached out and grabbed two small, basic iron daggers. They looked the least heavy.
+
+"Oh," Dantez raised an eyebrow, genuinely impressed. "Very close combat. High risk, high reward. That'll do."
+
+Korelius just nodded blankly, sliding the daggers into his belt.
+
+The heavy stone doors finally ground open. The sunlight of the arena hit them. Korelius walked out into the dirt. Finn was already standing on the opposite side of the massive, cratered ring.
+
+The crowd applause was polite, but mostly muted. Nobody really cared about an unknown pink-haired kid fighting a Vandlem. It wasn't until Sofia stepped forward to the edge of the VIP balcony that the stadium truly erupted.
+
+"Whoa... so far," Korelius murmured, squinting up at her. She looked tiny from down here.
+
+Across the dirt, Finn had his piercing blue eyes completely locked onto Korelius. His stance was rigid and perfect.
+
+"Ladies and gentlemen!" the announcer's voice boomed. "Prepare yourselves, as the final Dish of this morning will commence!"
+
+High above, Sofia nervously gripped a green silk handkerchief. She hesitated for a fraction of a second, her green eyes locked onto Korelius, before finally letting it slip from her fingers.
+
+The cloth hit the dirt.
+
+The match began.
+
+Finn didn't hesitate. The Vandlem hybrid technique was explosive. He manipulated his Essence to mimic Aura footwork, instantly creating a massive burst of forward momentum.
+
+He crossed the entire arena in the blink of an eye.
+
+Before Korelius could even flinch or reach for his daggers, Finn was right in front of him. Finn twisted his hips and delivered a devastating, flawless strike with the heavy pommel of his sword directly into Korelius's jaw.
+
+Korelius’s vision flashed white. His feet completely left the ground, and he crashed violently into the dirt.
+
+The stadium let out a collective, unimpressed groan. It was exactly the one-sided beatdown they had expected.
+
+Up in the balcony, Sofia gasped loudly, covering her mouth with her hands in absolute horror.
+
+Down in the dirt, Korelius groaned, his ears ringing loudly. He tasted copper.
+
+Finn stood over him, towering like a stone statue. The noble pointed the razor-sharp tip of his sword directly at Korelius's chest.
+
+"You do not deserve her," Finn said, his voice dripping with pure disgust. "Stand.”
+        </article>
+    </div>
+
+    <!-- SPA Logic & Chapter Parsing -->
+    <script>
+        const loreDictionary = {
+            "Eco": "The earthly logic of magic, feeling whimsical and alive.",
+            "Essence": "The manifestation of a person's unique Eco flowing through their soul.",
+            "Aura": "The powerful manipulation of wild Eco present in the environment.",
+            "Cado": "A unique, natural mutation or specialty in a person's Essence.",
+            "Guilds": "Powerful factions that dictate high-society politics and combat rules.",
+            "Vortex": "The intense, crushing mental state Aura users must maintain to pull wild Eco into themselves without losing focus.",
+            "Gravitational Anchor": "The intense, crushing mental state Aura users must maintain to pull wild Eco into themselves without losing focus.",
+            "Eco-weaving": "The architectural art of embedding Eco into physical objects, creating self-sustaining magical technology.",
+            "Great Evening": "A formal high-society matchmaking gala designed to secure political alliances and preserve ancient lineages.",
+            "Old Eco": "Ancient, raw magical traits and mutations that wealthy families desperately try to preserve through strict genetic bloodlines."
+        };
+
+        function applyTooltips(text) {
+            let processed = text;
+            for (const [term, def] of Object.entries(loreDictionary)) {
+                const regex = new RegExp(`\\b(${term})\\b(?![^<]*>|[^<>]*<\\/)`, 'g');
+                processed = processed.replace(regex, 
+                    `<span class="relative group cursor-help text-gp-amber font-bold border-b border-dashed border-gp-amber transition-colors hover:text-gp-pink">$1<span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-56 p-2 bg-book-leather-dark text-book-page text-sm rounded shadow-leather opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 font-arial border border-book-gold/30 tracking-normal text-left">${def}</span></span>`
+                );
+            }
+            return processed;
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.app-page').forEach(page => {
+                page.classList.remove('block');
+                page.classList.add('hidden');
+            });
+            
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+                targetPage.classList.add('block');
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if(link.getAttribute('data-target') === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            window.scrollTo(0,0);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rawChaptersContainer = document.getElementById('raw-chapters');
+            const chapterList = document.getElementById('chapter-list');
+            const readerContent = document.getElementById('reader-content');
+            const mobileChapterSelect = document.getElementById('mobile-chapter-select');
+            const readerContainer = document.getElementById('reader-container');
+            
+            const articles = rawChaptersContainer.querySelectorAll('article');
+            let chapters = [];
+
+            articles.forEach((article, index) => {
+                const title = article.getAttribute('data-title');
+                const rawText = article.innerHTML.trim();
+                const paragraphs = rawText.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('');
+                
+                chapters.push({
+                    id: index,
+                    title: title,
+                    html: applyTooltips(paragraphs)
+                });
+            });
+
+            chapters.forEach((chapter, index) => {
+                const li = document.createElement('li');
+                const btn = document.createElement('button');
+                
+                btn.className = `w-full text-left px-4 py-3 border-b border-book-gold/20 transition-colors text-sm font-serif uppercase tracking-wider ${index === 0 ? 'text-book-gold' : 'text-book-page hover:text-book-gold hover:bg-black/20'}`;
+                btn.textContent = chapter.title;
+                
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#chapter-list button').forEach(b => {
+                        b.classList.remove('text-book-gold');
+                        b.classList.add('text-book-page', 'hover:bg-black/20');
+                    });
+                    btn.classList.remove('text-book-page', 'hover:bg-black/20');
+                    btn.classList.add('text-book-gold');
+                    
+                    if(mobileChapterSelect) mobileChapterSelect.value = index;
+                    renderChapter(chapter);
+                    window.scrollTo(0,0);
+                });
+                
+                li.appendChild(btn);
+                chapterList.appendChild(li);
+
+                if(mobileChapterSelect) {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = chapter.title;
+                    mobileChapterSelect.appendChild(option);
+                }
+            });
+
+            if(mobileChapterSelect) {
+                mobileChapterSelect.addEventListener('change', (e) => {
+                    const idx = parseInt(e.target.value);
+                    document.querySelectorAll('#chapter-list button')[idx].click();
+                });
+            }
+
+            function renderChapter(chapter) {
+                let bottomContent = '<div class="mt-12 pt-8 border-t border-book-gold/30 flex justify-between font-serif">';
+                
+                if (chapter.id > 0) {
+                    bottomContent += `
+                        <button onclick="document.querySelectorAll('#chapter-list button')[${chapter.id - 1}].click()" class="inline-flex items-center space-x-2 border border-book-gold/50 text-book-gold/70 px-4 py-2 hover:bg-book-gold/10 hover:text-book-gold transition-all uppercase tracking-widest text-xs font-bold">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                            <span>Previous</span>
+                        </button>
+                    `;
+                } else {
+                    bottomContent += `<div></div>`; 
+                }
+                
+                if (chapter.id < chapters.length - 1) {
+                    bottomContent += `
+                        <button onclick="document.querySelectorAll('#chapter-list button')[${chapter.id + 1}].click()" class="inline-flex items-center space-x-2 border border-book-gold text-book-gold px-6 py-2 hover:bg-book-gold hover:text-book-leather-dark transition-all uppercase tracking-widest text-sm font-bold shadow-leather">
+                            <span>Turn the Page</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>`;
+                } 
+                else {
+                    bottomContent = `
+                        </div>
+                        <div class="mt-16 pt-12 border-t border-book-gold/30 text-center">
+                            <h2 class="text-4xl font-serif font-bold text-book-ink mb-6 uppercase tracking-widest">To Be Continued...</h2>
+                            <p class="text-xl font-arial text-book-ink/90 mb-8 leading-relaxed">
+                                The absolute draw has been declared due to structural failure of the grounds. But the tournament for Lady Delees is far from over. Will Korelius survive his upcoming duel with Finn? 
+                            </p>
+                            <div class="flex justify-center gap-4">
+                                <button onclick="document.querySelectorAll('#chapter-list button')[${chapter.id - 1}].click()" class="border border-book-gold/50 text-book-gold/70 px-4 py-2 hover:bg-book-gold/10 hover:text-book-gold uppercase tracking-widest text-xs font-bold">Previous Chapter</button>
+                                <div class="inline-block font-serif border border-gp-amber text-gp-amber px-6 py-3 uppercase tracking-widest text-sm font-bold bg-gp-amber/5">
+                                    Next Chapter in Development
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                readerContent.innerHTML = `
+                    <h1 class="text-3xl font-serif font-bold text-book-ink mb-8 pb-4 border-b border-book-gold/30 uppercase tracking-widest text-center">${chapter.title}</h1>
+                    ${chapter.html}
+                    ${bottomContent}
+                `;
+            }
+
+            // Reader Options Setup
+            const themeBtn = document.getElementById('toggle-theme-btn');
+            const fontBtn = document.getElementById('toggle-font-btn');
+            
+            if (themeBtn && fontBtn) {
+                themeBtn.addEventListener('click', () => {
+                    readerContainer.classList.toggle('theme-dark');
+                    document.getElementById('theme-label').textContent = readerContainer.classList.contains('theme-dark') ? "Light Mode" : "Dark Mode";
+                });
+                
+                fontBtn.addEventListener('click', () => {
+                    readerContent.classList.toggle('font-serif');
+                    readerContent.classList.toggle('font-arial');
+                    document.getElementById('font-label').textContent = readerContent.classList.contains('font-serif') ? "Use Sans-Serif" : "Use Serif";
+                });
+            }
+
+            // Sofia's Cado Toggle Logic
+            const cadoBtn = document.getElementById('cado-toggle-btn');
+            if (cadoBtn) {
+                cadoBtn.addEventListener('click', () => {
+                    const castContainer = document.getElementById('cast-container');
+                    const isCado = castContainer.classList.toggle('cado-active');
+                    
+                    // Also apply to supporting columns for consistency
+                    document.querySelectorAll('.columns-1').forEach(col => {
+                        col.classList.toggle('cado-active', isCado);
+                    });
+                    
+                    const btnText = document.getElementById('cado-btn-text');
+                    const helper = document.getElementById('cado-helper');
+                    
+                    if (isCado) {
+                        btnText.textContent = "Deactivate Sofia's Cado";
+                        helper.classList.remove('hidden');
+                        cadoBtn.classList.add('bg-gp-amber/20', 'shadow-[0_0_15px_rgba(217,119,6,0.4)]');
+                    } else {
+                        btnText.textContent = "Activate Sofia's Cado";
+                        helper.classList.add('hidden');
+                        cadoBtn.classList.remove('bg-gp-amber/20', 'shadow-[0_0_15px_rgba(217,119,6,0.4)]');
+                    }
+
+                    document.querySelectorAll('.character-desc').forEach(el => {
+                        if (!el.dataset.cado) return; // Prevent "undefined" bug on characters with no cado text
+                        
+                        if (isCado) {
+                            if (!el.dataset.normal) el.dataset.normal = el.innerHTML; 
+                            el.innerHTML = applyTooltips(el.dataset.cado);
+                            el.classList.add('cado-text');
+                            el.classList.remove('text-sm');
+                        } else {
+                            if (el.dataset.normal) el.innerHTML = el.dataset.normal;
+                            el.classList.remove('cado-text');
+                            el.classList.add('text-sm');
+                        }
+                    });
+                });
+            }
+
+            // Dantez's Notes Toggle Logic
+            const dantezBtns = document.querySelectorAll('.dantez-toggle-btn');
+            dantezBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const isDantez = document.body.classList.toggle('dantez-active');
+                    
+                    // Update all Dantez buttons
+                    dantezBtns.forEach(b => {
+                        const textSpan = b.querySelector('.dantez-btn-text');
+                        if (isDantez) {
+                            textSpan.textContent = "Hide Dantez's Notes";
+                            b.classList.add('bg-red-600/20', 'shadow-[0_0_15px_rgba(220,38,38,0.4)]');
+                        } else {
+                            textSpan.textContent = "Activate Dantez's Notes";
+                            b.classList.remove('bg-red-600/20', 'shadow-[0_0_15px_rgba(220,38,38,0.4)]');
+                        }
+                    });
+                });
+            });
+
+            if (chapters.length > 0) {
+                renderChapter(chapters[0]);
+            }
+        });
+    </script>
+</body>
+</html>
+
