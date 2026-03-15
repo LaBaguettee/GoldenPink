@@ -51,6 +51,7 @@
             margin-bottom: 1.25rem; 
             line-height: 1.8; 
             font-size: 1.125rem; 
+            text-align: justify;
         }
 
         /* Textured Page Look */
@@ -243,9 +244,9 @@
                     
                     <!-- Chapter Selection Menu (Leather bound) -->
                     <div class="lg:w-1/4 flex-shrink-0 order-2 lg:order-1">
-                        <div class="sticky top-24 bg-book-leather-dark rounded-sm border border-book-gold/30 p-4 pt-0 max-h-[80vh] overflow-y-auto shadow-leather">
-                            <h3 class="text-xl font-bold text-book-gold px-2 pt-4 pb-4 sticky top-0 bg-book-leather-dark uppercase tracking-widest border-b border-gp-amber/30 z-10">Index</h3>
-                            <ul id="chapter-list" class="space-y-2 mt-4">
+                        <div class="sticky top-16 bg-book-leather-dark rounded-sm border border-book-gold/30 pt-0 max-h-[80vh] overflow-y-auto shadow-leather">
+                            <h3 class="text-xl font-bold text-book-gold px-6 pt-4 pb-4 sticky top-0 bg-book-leather-dark uppercase tracking-widest border-b border-gp-amber/30 z-10">Index</h3>
+                            <ul id="chapter-list" class="">
                                 <!-- JS will populate chapters here -->
                             </ul>
                         </div>
@@ -255,15 +256,44 @@
                     <div class="lg:w-3/4 flex flex-col order-1 lg:order-2">
                         
                         <!-- Reader Controls -->
-                        <div class="flex justify-end space-x-4 mb-4 px-2">
-                            <button id="toggle-font-btn" class="flex items-center space-x-2 text-book-page hover:text-gp-pink transition text-sm uppercase tracking-wider">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
-                                <span id="font-label">Use Serif</span>
-                            </button>
-                            <button id="toggle-theme-btn" class="flex items-center space-x-2 text-book-page hover:text-book-gold transition text-sm uppercase tracking-wider">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                                <span id="theme-label">Dark Mode</span>
-                            </button>
+                        <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm p-3 rounded-sm border border-book-gold/30 shadow-leather flex flex-wrap justify-center md:justify-end gap-4 mb-6 items-center">
+                            
+                            <!-- Atmosphere Controls -->
+                            <div class="flex items-center space-x-3 border-r border-book-gold/30 pr-4">
+                                <span class="text-xs uppercase text-book-page/50 font-bold tracking-widest hidden md:inline">Atmosphere:</span>
+                                <button id="btn-sound-joy" class="text-book-page hover:text-gp-pink transition" title="Joyous (Slice of Life)">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                </button>
+                                <button id="btn-sound-absurd" class="text-book-page hover:text-gp-pink transition" title="Absurd (Funny)">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path></svg>
+                                </button>
+                                <button id="btn-sound-jazz" class="text-book-page hover:text-gp-amber transition" title="Happy Jazz">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h20l-10 10v7"></path><line x1="8" y1="20" x2="16" y2="20"></line><circle cx="15" cy="6" r="1" fill="currentColor"></circle></svg>
+                                </button>
+                                <button id="btn-sound-amb" class="text-book-page hover:text-book-gold transition" title="Ambient (Piano-like)">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect><line x1="7" y1="4" x2="7" y2="14"></line><line x1="11" y1="4" x2="11" y2="14"></line><line x1="15" y1="4" x2="15" y2="14"></line><line x1="19" y1="4" x2="19" y2="14"></line></svg>
+                                </button>
+                                <button id="btn-sound-com" class="text-book-page hover:text-red-500 transition" title="Combat (Tense)">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                </button>
+                                <button id="btn-sound-intense" class="text-book-page hover:text-red-600 transition" title="Intense Combat (Jazz)">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+                                </button>
+                                <button id="btn-sound-off" class="text-gp-amber hidden transition" title="Mute">
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center space-x-4">
+                                <button id="toggle-font-btn" class="flex items-center space-x-2 text-book-page hover:text-gp-pink transition text-sm uppercase tracking-wider">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+                                    <span id="font-label">Use Serif</span>
+                                </button>
+                                <button id="toggle-theme-btn" class="flex items-center space-x-2 text-book-page hover:text-book-gold transition text-sm uppercase tracking-wider">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                                    <span id="theme-label">Dark Mode</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div id="reader-container" class="paper-texture rounded-sm border border-book-gold/20 p-6 md:p-12 shadow-page">
@@ -279,10 +309,12 @@
         <!-- ==================== CHARACTERS PAGE ==================== -->
         <div id="page-characters" class="app-page hidden">
             <section class="py-16 px-4 min-h-[85vh]">
-                <div class="max-w-7xl mx-auto">
+                <div class="max-w-7xl mx-auto flex flex-col items-center">
+                    
                     <h2 class="text-4xl font-bold text-book-gold mb-6 text-center uppercase tracking-widest border-b border-book-gold/50 pb-4 inline-block mx-auto" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">The Lineage Ledger</h2>
                     
-                    <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm p-4 border-b border-book-gold/30 shadow-leather flex flex-wrap justify-center items-center gap-4 -mx-4 mb-12 transition-all duration-300">
+                    <!-- Sticky Activations Bar -->
+                    <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm w-full p-4 border-b border-book-gold/30 shadow-leather flex flex-wrap justify-center items-center gap-4 mb-12 transition-all duration-300">
                         <button id="cado-toggle-btn" class="inline-flex items-center space-x-2 border border-gp-amber/50 text-gp-amber px-6 py-2 hover:bg-gp-amber/10 transition-all uppercase tracking-widest text-sm font-bold rounded-sm shadow-leather">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             <span id="cado-btn-text">Activate Sofia's Cado</span>
@@ -295,7 +327,7 @@
                     </div>
                     
                     <!-- Main Families (Forced Side-by-Side) -->
-                    <div id="cast-container" class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8 mb-12 items-start transition-colors duration-700">
+                    <div id="cast-container" class="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8 mb-12 items-start transition-colors duration-700 w-full">
                         <!-- Delees Family -->
                         <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page w-full relative">
                             <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-gp-amber/30 pb-2 uppercase tracking-widest">The Delees Lineage</h3>
@@ -508,17 +540,19 @@
         <!-- ==================== LORE PAGE ==================== -->
         <div id="page-lore" class="app-page hidden">
             <section class="py-16 px-4 min-h-[85vh]">
-                <div class="max-w-4xl mx-auto relative">
+                <div class="max-w-4xl mx-auto relative flex flex-col items-center">
+                    
                     <h2 class="text-4xl font-bold text-book-gold mb-12 text-center uppercase tracking-widest">The Lexicon: Eco</h2>
 
-                    <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm p-4 border-b border-book-gold/30 shadow-leather flex flex-wrap justify-center items-center gap-4 -mx-4 mb-12 transition-all duration-300">
+                    <!-- Sticky Activations Bar -->
+                    <div class="sticky top-16 z-40 bg-[#0A1C15]/95 backdrop-blur-sm w-full p-4 border-b border-book-gold/30 shadow-leather flex flex-wrap justify-center items-center gap-4 mb-12 transition-all duration-300">
                         <button class="dantez-toggle-btn inline-flex items-center space-x-2 border border-red-600/50 text-red-500 px-6 py-2 hover:bg-red-600/10 transition-all uppercase tracking-widest text-sm font-bold rounded-sm shadow-leather">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             <span class="dantez-btn-text">Activate Dantez's Notes</span>
                         </button>
                     </div>
                     
-                    <div class="paper-texture p-8 md:p-16 rounded-sm shadow-page border border-book-gold/20 relative">
+                    <div class="paper-texture p-8 md:p-16 rounded-sm shadow-page border border-book-gold/20 relative w-full">
                         
                         <!-- Dantez's Marginalia -->
                         <div class="dantez-note absolute left-0 md:-left-8 top-12 w-56 md:w-72 -rotate-2 z-20">
@@ -2461,16 +2495,16 @@ Finn stood over him, towering like a stone statue. The noble pointed the razor-s
                 const li = document.createElement('li');
                 const btn = document.createElement('button');
                 
-                btn.className = `w-full text-left px-4 py-3 border-b border-book-gold/20 transition-colors text-sm font-serif uppercase tracking-wider ${index === 0 ? 'text-book-gold' : 'text-book-page hover:text-book-gold hover:bg-black/20'}`;
+                btn.className = `w-full text-left px-6 py-4 border-b border-book-gold/20 transition-colors text-sm font-serif uppercase tracking-wider ${index === 0 ? 'text-book-gold bg-black/30' : 'text-book-page hover:text-book-gold hover:bg-black/20'}`;
                 btn.textContent = chapter.title;
                 
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('#chapter-list button').forEach(b => {
-                        b.classList.remove('text-book-gold');
+                        b.classList.remove('text-book-gold', 'bg-black/30');
                         b.classList.add('text-book-page', 'hover:bg-black/20');
                     });
                     btn.classList.remove('text-book-page', 'hover:bg-black/20');
-                    btn.classList.add('text-book-gold');
+                    btn.classList.add('text-book-gold', 'bg-black/30');
                     
                     if(mobileChapterSelect) mobileChapterSelect.value = index;
                     renderChapter(chapter);
@@ -2566,6 +2600,9 @@ Finn stood over him, towering like a stone statue. The noble pointed the razor-s
                     const castContainer = document.getElementById('cast-container');
                     const isCado = castContainer.classList.toggle('cado-active');
                     
+                    // Apply globally to body for title targeting
+                    document.body.classList.toggle('cado-active', isCado);
+                    
                     // Also apply to supporting columns for consistency
                     document.querySelectorAll('.columns-1').forEach(col => {
                         col.classList.toggle('cado-active', isCado);
@@ -2621,6 +2658,291 @@ Finn stood over him, towering like a stone statue. The noble pointed the razor-s
                 });
             });
 
+            // Atmosphere Audio Logic
+            const btnJoy = document.getElementById('btn-sound-joy');
+            const btnAbsurd = document.getElementById('btn-sound-absurd');
+            const btnJazz = document.getElementById('btn-sound-jazz');
+            const btnAmb = document.getElementById('btn-sound-amb');
+            const btnCom = document.getElementById('btn-sound-com');
+            const btnIntense = document.getElementById('btn-sound-intense');
+            const btnOff = document.getElementById('btn-sound-off');
+
+            let audioCtx;
+            let activeIntervals = [];
+            let activeOscillators = [];
+
+            function stopAtmosphere() {
+                activeIntervals.forEach(clearInterval);
+                activeIntervals = [];
+                activeOscillators.forEach(osc => {
+                    try { osc.stop(); osc.disconnect(); } catch(e) {}
+                });
+                activeOscillators = [];
+                
+                [btnJoy, btnAbsurd, btnJazz, btnAmb, btnCom, btnIntense].forEach(btn => {
+                    if(btn) {
+                        btn.classList.remove('text-gp-amber', 'text-red-500', 'text-red-600', 'scale-110');
+                        btn.classList.add('text-book-page');
+                    }
+                });
+                btnOff.classList.add('hidden');
+            }
+
+            function initAudioCtx() {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                stopAtmosphere();
+                btnOff.classList.remove('hidden');
+            }
+
+            function playSynthTone(freq, type, attack, decay, vol) {
+                if (!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.value = freq;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + attack);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + attack + decay);
+                
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + attack + decay);
+                activeOscillators.push(osc);
+            }
+
+            if (btnJoy) {
+                btnJoy.addEventListener('click', () => {
+                    initAudioCtx();
+                    btnJoy.classList.replace('text-book-page', 'text-gp-amber');
+                    btnJoy.classList.add('scale-110');
+                    
+                    // Longer, relaxing, pleasant 8-bar progression (Cmaj7 - Am7 - Fmaj7 - G7 - Cmaj7 - Fmaj7 - Dm7 - G9)
+                    const chords = [
+                        [261.63, 329.63, 392.00, 493.88], // Cmaj7
+                        [220.00, 261.63, 329.63, 392.00], // Am7
+                        [174.61, 220.00, 261.63, 329.63], // Fmaj7
+                        [196.00, 246.94, 293.66, 349.23], // G7
+                        [261.63, 329.63, 392.00, 493.88], // Cmaj7
+                        [261.63, 349.23, 440.00, 523.25], // Fmaj7 (higher inversion)
+                        [293.66, 349.23, 440.00, 523.25], // Dm7
+                        [196.00, 246.94, 349.23, 440.00]  // G9
+                    ];
+                    const basslines = [
+                        [65.41, 98.00, 65.41, 98.00],     // C
+                        [55.00, 82.41, 55.00, 82.41],     // A
+                        [43.65, 65.41, 43.65, 65.41],     // F (lower)
+                        [49.00, 73.42, 49.00, 73.42],     // G (lower)
+                        [65.41, 98.00, 65.41, 98.00],     // C
+                        [87.31, 130.81, 87.31, 130.81],   // F (higher)
+                        [73.42, 110.00, 73.42, 110.00],   // D
+                        [98.00, 146.83, 98.00, 146.83]    // G (higher)
+                    ];
+                    
+                    let bar = 0;
+                    let beat = 0;
+                    
+                    activeIntervals.push(setInterval(() => {
+                        // Soft, warm bass on every beat
+                        playSynthTone(basslines[bar][beat], 'triangle', 0.1, 0.4, 0.05);
+                        
+                        // Relaxing, warm chords on off-beats
+                        if (beat === 1 || beat === 3) {
+                            chords[bar].forEach((freq, index) => {
+                                // Slightly stagger the chord notes for a strummed, Rhodes piano feel
+                                setTimeout(() => {
+                                    playSynthTone(freq, 'sine', 0.1, 0.6, 0.02);
+                                }, index * 30);
+                            });
+                        }
+                        
+                        beat++;
+                        if (beat > 3) {
+                            beat = 0;
+                            bar = (bar + 1) % chords.length;
+                        }
+                    }, 450)); // Slower, relaxed tempo for longer reading
+                });
+                
+                btnAbsurd.addEventListener('click', () => {
+                    initAudioCtx();
+                    btnAbsurd.classList.replace('text-book-page', 'text-gp-amber');
+                    btnAbsurd.classList.add('scale-110');
+                    
+                    // Goofy, unpredictable diminished/augmented chords
+                    const chords = [
+                        [261.63, 329.63, 415.30], // C Augmented (quirky)
+                        [369.99, 466.16, 523.25], // Gb7 (dissonant jump)
+                        [329.63, 392.00, 466.16], // E Diminished (sneaky)
+                        [415.30, 523.25, 622.25]  // Ab Augmented (floating)
+                    ];
+                    const basslines = [
+                        [65.41, 130.81, 65.41, 164.81],   // Erratic octave jumps
+                        [92.50, 185.00, 92.50, 233.08],
+                        [82.41, 164.81, 82.41, 196.00],
+                        [103.83, 207.65, 103.83, 261.63]
+                    ];
+                    
+                    let bar = 0;
+                    let beat = 0;
+                    
+                    activeIntervals.push(setInterval(() => {
+                        // Tiptoe bass
+                        playSynthTone(basslines[bar][beat], 'triangle', 0.01, 0.15, 0.06);
+                        
+                        // Random goofy chords
+                        if (Math.random() > 0.4) {
+                            chords[bar].forEach(freq => playSynthTone(freq, 'square', 0.02, 0.2, 0.015));
+                        }
+                        
+                        // Random stutter/trip sound
+                        if (Math.random() > 0.8) { 
+                            setTimeout(() => playSynthTone(chords[bar][0] * 2, 'sine', 0.01, 0.1, 0.02), 80);
+                        }
+                        
+                        beat++;
+                        if (beat > 3) {
+                            beat = 0;
+                            // Randomize the next bar for maximum absurdity
+                            bar = Math.floor(Math.random() * chords.length);
+                        }
+                    }, 250)); // Frantic, cartoonish tempo
+                });
+
+                btnJazz.addEventListener('click', () => {
+                    initAudioCtx();
+                    btnJazz.classList.replace('text-book-page', 'text-gp-amber');
+                    btnJazz.classList.add('scale-110');
+                    
+                    // Full ii-V-I Jazz Progression with Walking Bass & Chords
+                    const chords = [
+                        [293.66, 349.23, 440.00, 523.25], // Dm7
+                        [392.00, 493.88, 587.33, 659.25], // G7
+                        [261.63, 329.63, 392.00, 493.88], // Cmaj7
+                        [261.63, 329.63, 392.00, 466.16]  // C7
+                    ];
+                    const basslines = [
+                        [73.42, 87.31, 110.00, 130.81], // D walking
+                        [98.00, 123.47, 146.83, 164.81], // G walking
+                        [65.41, 82.41, 98.00, 116.54],   // C walking
+                        [65.41, 82.41, 116.54, 130.81]   // C7 walking
+                    ];
+                    
+                    let bar = 0;
+                    let beat = 0;
+                    
+                    activeIntervals.push(setInterval(() => {
+                        // Walking Bass
+                        playSynthTone(basslines[bar][beat], 'triangle', 0.05, 0.4, 0.08);
+                        
+                        // Chords on off-beats (Syncopation)
+                        if (beat === 1 || (beat === 3 && Math.random() > 0.5)) {
+                            chords[bar].forEach(freq => playSynthTone(freq, 'sine', 0.05, 0.5, 0.02));
+                        }
+                        
+                        // Swing Cymbal
+                        if (beat % 2 !== 0) {
+                            playSynthTone(800, 'square', 0.01, 0.05, 0.01); 
+                            setTimeout(() => playSynthTone(800, 'square', 0.01, 0.05, 0.01), 250); 
+                        }
+                        
+                        beat++;
+                        if (beat > 3) {
+                            beat = 0;
+                            bar = (bar + 1) % chords.length;
+                        }
+                    }, 380));
+                });
+
+                btnAmb.addEventListener('click', () => {
+                    initAudioCtx();
+                    btnAmb.classList.replace('text-book-page', 'text-gp-amber');
+                    btnAmb.classList.add('scale-110');
+                    
+                    // Slow ambient chords
+                    const chords = [
+                        [261.63, 329.63, 392.00], // C
+                        [293.66, 349.23, 440.00], // Dm
+                        [349.23, 440.00, 523.25], // F
+                        [392.00, 493.88, 587.33]  // G
+                    ];
+                    let step = 0;
+                    
+                    function playAmbientChord() {
+                        const chord = chords[step % chords.length];
+                        chord.forEach(freq => playSynthTone(freq, 'triangle', 1.0, 4.0, 0.02));
+                        step++;
+                    }
+                    
+                    playAmbientChord(); // play first immediately
+                    activeIntervals.push(setInterval(playAmbientChord, 4000));
+                });
+
+                btnCom.addEventListener('click', () => {
+                    initAudioCtx();
+                    btnCom.classList.replace('text-book-page', 'text-red-500');
+                    btnCom.classList.add('scale-110');
+                    
+                    // Tense heartbeat/drums & low rumble - Smoothed out (no sizzle)
+                    playSynthTone(50, 'triangle', 2.0, 10.0, 0.06); // Smooth rumble
+                    activeIntervals.push(setInterval(() => playSynthTone(50, 'triangle', 2.0, 10.0, 0.06), 8000));
+                    
+                    let beat = 0;
+                    activeIntervals.push(setInterval(() => {
+                        if (beat % 4 === 0 || beat % 4 === 1) { // Boom-boom...
+                            playSynthTone(55, 'sine', 0.02, 0.5, 0.12); // Softer kick drum
+                        }
+                        beat++;
+                    }, 450));
+                });
+
+                btnIntense.addEventListener('click', () => {
+                    initAudioCtx();
+                    btnIntense.classList.replace('text-book-page', 'text-red-600');
+                    btnIntense.classList.add('scale-110');
+                    
+                    // Heavy, Intense Combat Jazz (Fast, driving, dissonant)
+                    const combatChords = [
+                        [293.66, 349.23, 415.30, 523.25], // Dm7b5 (tense, dissonant)
+                        [311.13, 392.00, 466.16, 587.33]  // Ebmaj7#11 (sharp, aggressive)
+                    ];
+                    const combatBass = [
+                        [73.42, 87.31, 98.00, 103.83, 110.00, 103.83, 98.00, 87.31], // Driving blues walk
+                        [77.78, 92.50, 103.83, 110.00, 116.54, 110.00, 103.83, 92.50]  // Shifted up
+                    ];
+                    
+                    let bar = 0;
+                    let step = 0;
+                    
+                    activeIntervals.push(setInterval(() => {
+                        // Fast, aggressive walking bass using triangle for less harsh high-end
+                        playSynthTone(combatBass[bar][step % 8], 'triangle', 0.02, 0.2, 0.05);
+                        
+                        // Smoother "Ride Cymbal" jazz pattern (lowered freq, changed to sine)
+                        if (step % 2 === 0 || step % 4 === 3) {
+                            playSynthTone(900, 'sine', 0.01, 0.08, 0.015); 
+                        }
+                        
+                        // Intense, syncopated chord stabs (Smoothed out using sine waves)
+                        if (step === 2 || step === 5 || step === 7) {
+                            if (Math.random() > 0.3) { // Unpredictable stabs
+                                combatChords[bar].forEach(freq => playSynthTone(freq, 'sine', 0.01, 0.15, 0.04));
+                            }
+                        }
+                        
+                        step++;
+                        if (step > 15) {
+                            step = 0;
+                            bar = (bar + 1) % combatBass.length; // Shift progression for tension
+                        }
+                    }, 140)); // VERY fast, adrenaline-pumping tempo
+                });
+
+                btnOff.addEventListener('click', stopAtmosphere);
+            }
+
             if (chapters.length > 0) {
                 renderChapter(chapters[0]);
             }
@@ -2628,4 +2950,3 @@ Finn stood over him, towering like a stone statue. The noble pointed the razor-s
     </script>
 </body>
 </html>
-
