@@ -285,6 +285,10 @@
                             </div>
 
                             <div class="flex items-center space-x-4">
+                                <button id="toggle-tts-btn" class="flex items-center space-x-2 text-book-page hover:text-gp-amber transition text-sm uppercase tracking-wider">
+                                    <svg class="w-4 h-4" id="tts-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span id="tts-label">Read Chapter</span>
+                                </button>
                                 <button id="toggle-font-btn" class="flex items-center space-x-2 text-book-page hover:text-gp-pink transition text-sm uppercase tracking-wider">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
                                     <span id="font-label">Use Serif</span>
@@ -2529,7 +2533,45 @@ Finn stood over him, towering like a stone statue. The noble pointed the razor-s
                 });
             }
 
+            // Text-to-Speech Globals
+            let synth = window.speechSynthesis;
+            let isSpeaking = false;
+            let speechChunks = [];
+            let currentChunkIndex = 0;
+
+            function stopSpeaking() {
+                synth.cancel();
+                isSpeaking = false;
+                const ttsLabel = document.getElementById('tts-label');
+                const ttsIcon = document.getElementById('tts-icon');
+                if(ttsLabel && ttsIcon) {
+                    ttsLabel.textContent = "Read Chapter";
+                    ttsIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                }
+            }
+
+            function speakNextChunk() {
+                if (!isSpeaking || currentChunkIndex >= speechChunks.length) {
+                    stopSpeaking();
+                    return;
+                }
+                let utterance = new SpeechSynthesisUtterance(speechChunks[currentChunkIndex]);
+                // Try to use a natural sounding voice if available
+                let voices = synth.getVoices();
+                let bestVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Natural') || v.name.includes('Premium')));
+                if(bestVoice) utterance.voice = bestVoice;
+                
+                utterance.onend = () => {
+                    if (isSpeaking) {
+                        currentChunkIndex++;
+                        speakNextChunk();
+                    }
+                };
+                synth.speak(utterance);
+            }
+
             function renderChapter(chapter) {
+                stopSpeaking(); // Stop reading if the page turns
                 let bottomContent = '<div class="mt-12 pt-8 border-t border-book-gold/30 flex justify-between font-serif">';
                 
                 if (chapter.id > 0) {
@@ -2579,7 +2621,31 @@ Finn stood over him, towering like a stone statue. The noble pointed the razor-s
             // Reader Options Setup
             const themeBtn = document.getElementById('toggle-theme-btn');
             const fontBtn = document.getElementById('toggle-font-btn');
+            const ttsBtn = document.getElementById('toggle-tts-btn');
             
+            if (ttsBtn) {
+                ttsBtn.addEventListener('click', () => {
+                    const ttsLabel = document.getElementById('tts-label');
+                    const ttsIcon = document.getElementById('tts-icon');
+                    
+                    if (isSpeaking) {
+                        stopSpeaking();
+                    } else {
+                        // Extract text cleanly paragraph by paragraph
+                        const elements = readerContent.querySelectorAll('p, h1, h2, h3, h4');
+                        speechChunks = Array.from(elements).map(el => el.innerText.trim()).filter(text => text.length > 0);
+                        currentChunkIndex = 0;
+                        
+                        if (speechChunks.length > 0) {
+                            isSpeaking = true;
+                            ttsLabel.textContent = "Stop Reading";
+                            ttsIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                            speakNextChunk();
+                        }
+                    }
+                });
+            }
+
             if (themeBtn && fontBtn) {
                 themeBtn.addEventListener('click', () => {
                     readerContainer.classList.toggle('theme-dark');
