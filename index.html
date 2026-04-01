@@ -209,13 +209,13 @@
                     <h3 class="text-lg md:text-xl font-serif text-book-gold mb-2 uppercase tracking-widest text-center">Xander's Ultimatum</h3>
                     <div class="flex justify-center items-center gap-6 mt-4">
                         <div class="text-center">
-                            <span class="block text-5xl md:text-6xl font-bold text-gp-pink animate-pulse" style="text-shadow: 0 0 15px rgba(255,182,193,0.4);">20</span>
+                            <span class="block text-5xl md:text-6xl font-bold text-gp-pink animate-pulse" style="text-shadow: 0 0 15px rgba(255,182,193,0.4);">11</span>
                             <span class="text-xs md:text-sm uppercase tracking-widest text-book-page mt-2 block font-arial">Days Remain</span>
                         </div>
                         <div class="w-px h-16 bg-book-gold/30"></div>
                         <div class="text-left max-w-xs">
-                            <span class="block text-lg font-bold text-gp-amber uppercase tracking-widest leading-tight">The Great Evening Dishes</span>
-                            <span class="text-sm text-book-page mt-2 block font-arial opacity-80">Dantez must prove the impossible, or face permanent disownment.</span>
+                            <span class="block text-lg font-bold text-gp-amber uppercase tracking-widest leading-tight">The Promise Date</span>
+                            <span class="text-sm text-book-page mt-2 block font-arial opacity-80">Dantez and Korelius must reverse Essence Loss, or face permanent disownment.</span>
                         </div>
                     </div>
                 </div>
@@ -542,6 +542,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- House Saint Oliver -->
+                        <div class="paper-texture p-8 rounded-sm border border-book-leather/20 shadow-page break-inside-avoid inline-block w-full mb-12 relative">
+                            <h3 class="text-3xl font-bold text-book-ink mb-6 border-b border-book-leather/30 pb-2 uppercase tracking-widest">House Saint Oliver</h3>
+                            <div class="space-y-6 font-arial">
+                                <div class="lineage-card p-3 -mx-3 rounded border border-transparent">
+                                    <h4 class="text-xl font-bold text-book-ink font-serif">Maxemilio Saint Oliver, 19</h4>
+                                    <p class="text-book-leather text-sm font-bold mb-2 uppercase tracking-wide">The Doctor's Apprentice</p>
+                                    <div class="character-desc text-sm leading-relaxed">A 19-year-old medical apprentice from a Saint house. He wears a pristine white trench coat over a gray hoodie, has black hair, and wears silver earrings. Profoundly calm and unbothered, he uses regular medical practices alongside Eco healing. He was the first to deduce the impossible nature of Korelius's pink mist and introduced the boys to the concept of ancient Runes.</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Historical Figures -->
@@ -639,6 +651,12 @@
                             <p><strong class="font-serif text-xl text-gp-amber">Great Evening</strong> represents a formal high-society matchmaking gala designed to secure political alliances and preserve ancient lineages through organized tournament combat known as the Dishes.</p>
 
                             <p><strong class="font-serif text-xl text-gp-amber">Old Eco</strong> describes the ancient, raw magical traits and mutations that wealthy aristocratic families desperately try to preserve through strict genetic bloodlines.</p>
+                            
+                            <p><strong class="font-serif text-xl text-gp-amber">Runes</strong> are a primitive, physical language of Eco. Formerly used by early Saints to concentrate magic for rapid healing, they are now strictly forbidden on living flesh as they can cause violent physical or mental catastrophes. They are only safely used in modern Eco-weaving on inanimate machinery.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Black Flames</strong> are an ancient, dead Essence magic. Highly lethal, they never stop burning until either the user wills it or the user dies.</p>
+
+                            <p><strong class="font-serif text-xl text-gp-amber">Sun Form</strong> is the Ofgreen signature genetic trait. Powerful members can take on the physical properties of the sun, granting them the ability to float, glow with blinding brilliance, and fire constructs of solid hard-light.</p>
                         </div>
                     </div>
                 </div>
@@ -3367,7 +3385,10 @@ Sofia pinched her nose in absolute disgust. Her fiery rage returned instantly.
             "Gravitational Anchor": "The intense, crushing mental state Aura users must maintain to pull wild Eco into themselves without losing focus.",
             "Eco-weaving": "The architectural art of embedding Eco into physical objects, creating self-sustaining magical technology.",
             "Great Evening": "A formal high-society matchmaking gala designed to secure political alliances and preserve ancient lineages.",
-            "Old Eco": "Ancient, raw magical traits and mutations that wealthy families desperately try to preserve through strict genetic bloodlines."
+            "Old Eco": "Ancient, raw magical traits and mutations that wealthy families desperately try to preserve through strict genetic bloodlines.",
+            "Runes": "A primitive, physical language of Eco, now forbidden on living flesh due to catastrophic side effects.",
+            "Black Flames": "An ancient, dead Essence magic that never stops burning until the user stops it or dies.",
+            "Sun Form": "The Ofgreen signature genetic trait, allowing the user to take on properties of the sun and manipulate hard-light."
         };
 
         function applyTooltips(text) {
@@ -3621,8 +3642,8 @@ Sofia pinched her nose in absolute disgust. Her fiery rage returned instantly.
                         </div>
                         <div class="mt-16 pt-12 border-t border-book-gold/30 text-center">
                             <h2 class="text-4xl font-serif font-bold text-book-ink mb-6 uppercase tracking-widest">To Be Continued...</h2>
-                            <p class="text-xl font-arial text-book-ink/90 mb-8 leading-relaxed">
-                                The absolute draw has been declared due to structural failure of the grounds. But the tournament for Lady Delees is far from over. Will Korelius survive his upcoming duel with Finn? 
+                            <p class="text-xl font-arial text-book-ink/90 mb-8 leading-relaxed max-w-3xl mx-auto">
+                                A massive breakthrough! Using the forbidden, ancient language of Runes, the boys have finally managed to manipulate Eco. But with only 11 days left, a destroyed bedroom door, and a desperate need for a shower, what chaotic step will they take next?
                             </p>
                             <div class="flex justify-center gap-4">
                                 <button onclick="document.querySelectorAll('#chapter-list button')[${chapter.id - 1}].click()" class="border border-book-gold/50 text-book-gold/70 px-4 py-2 hover:bg-book-gold/10 hover:text-book-gold uppercase tracking-widest text-xs font-bold">Previous Chapter</button>
